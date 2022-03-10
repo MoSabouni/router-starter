@@ -1,3 +1,4 @@
+//@ts-check
 import { navigateTo } from '../lib/hash-router.js';
 import { clearElement, createElement } from '../lib/dom-helpers.js';
 import createRepoListItemView from '../views/repoListItemView.js';

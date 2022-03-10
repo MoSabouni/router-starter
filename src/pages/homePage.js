@@ -1,3 +1,4 @@
+//@ts-check
 import { createElement } from '../lib/dom-helpers.js';
 import { navigateTo } from '../lib/hash-router.js';
 
@@ -11,6 +12,7 @@ const createHomePage = () => {
 
   // To keep things simple, let's use an HTML template here.
   const introTemplate = document.getElementById('intro');
+  //@ts-ignore
   container.appendChild(introTemplate.content.cloneNode(true));
 
   const startBtn = createElement('button', {

@@ -1,13 +1,14 @@
+//@ts-check
 /**
- * This file is provided ready-made by HackYourFuture.
+ * This file is provided ready-made for use in your application by HackYourFuture.
  * There should be no reason to make any changes to this file.
  */
 import { clearElement } from './dom-helpers.js';
 
 /**
  * Navigates to a specified page.
- * @param  {...any} args First arg is the pathname, any remaining args are
- * passed to the page creator function.
+ * @param  {*} args First arg is the pathname, any remaining args are
+ * passed to the associated page creator function.
  */
 export const navigateTo = (...args) => {
   const encodedHash = encodeURI('#' + args.join('/'));
@@ -20,9 +21,12 @@ const getRouteParts = () => {
   return [path, ...rest];
 };
 
+/** @typedef {(...args: any) => HTMLElement} ElementFactoryFunction */
+/** @typedef {{path: string, page: ElementFactoryFunction, default?: boolean}} RouteDefinition */
+
 /**
  * Create a location hash based router.
- * @param {*} routes An array of route objects.
+ * @param {RouteDefinition[]} routes An array of route objects.
  */
 const createRouter = (routes) => {
   // Find the first route object in the `routes` table that has the property

@@ -1,3 +1,4 @@
+//@ts-check
 import { createElement } from './lib/dom-helpers.js';
 import createRouter from './lib/hash-router.js';
 import routes from './pages/routes.js';

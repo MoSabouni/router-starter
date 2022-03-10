@@ -1,3 +1,4 @@
+//@ts-check
 import { createElement } from '../lib/dom-helpers.js';
 
 const createRepoListItem = (repo) => {

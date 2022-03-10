@@ -1,3 +1,4 @@
+//@ts-check
 import { createElement } from '../lib/dom-helpers.js';
 import { navigateTo } from '../lib/hash-router.js';
 
