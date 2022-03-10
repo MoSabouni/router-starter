@@ -10,11 +10,12 @@ import { clearElement } from './dom-helpers.js';
  * passed to the page creator function.
  */
 export const navigateTo = (...args) => {
-  window.location.assign('#' + args.join('/'));
+  const encodedHash = encodeURI('#' + args.join('/'));
+  window.location.assign(encodedHash);
 };
 
 const getRouteParts = () => {
-  const [hash, ...rest] = window.location.hash.split('/');
+  const [hash, ...rest] = decodeURI(window.location.hash).split('/');
   const path = hash.replace('#', '');
   return [path, ...rest];
 };
