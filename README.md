@@ -195,3 +195,7 @@ const createRouter = (routes) => {
   //...
 };
 ```
+
+---
+
+See <https://github.com/remarcmij/hyf-repos> for an example based on this starter repo that uses page parameters in the hash.
