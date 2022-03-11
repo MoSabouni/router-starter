@@ -1,23 +1,31 @@
 //@ts-check
-import { navigateTo } from '../lib/hash-router.js';
-import { clearElement, createElement } from '../lib/dom-helpers.js';
+import { navigateTo } from '../lib/hashRouter.js';
+import { createElement, clearElement } from '../lib/domHelpers.js';
 import createRepoListItemView from '../views/repoListItemView.js';
-import fetchRepos from '../fetchers/repos-fetcher.js';
+import createHeaderView from '../views/headerView.js';
+import fetchRepos from '../fetchers/reposFetcher.js';
+import createLoadingIndicator from '../views/loadingIndicator.js';
 
 const createReposPage = () => {
-  const root = createElement();
+  const root = createElement('div', { class: 'repos-container' });
 
+  const headerContent = createElement('div', { class: 'header-content' });
   const homeBtn = createElement('button', { type: 'button', text: 'Home' });
-  root.appendChild(homeBtn);
+  headerContent.appendChild(homeBtn);
   homeBtn.addEventListener('click', () => navigateTo('home'));
+
+  const headerTitle = createElement('div', { text: 'HYF Repositories' });
+  headerContent.appendChild(headerTitle);
+
+  const headerView = createHeaderView(headerContent);
+  root.appendChild(headerView.root);
 
   const container = createElement();
   root.appendChild(container);
 
-  const loadingIndicator = createElement('p', { text: 'Loading...' });
-  container.appendChild(loadingIndicator);
+  const loadingIndicator = createLoadingIndicator();
+  container.appendChild(loadingIndicator.root);
 
-  // The fetched data will be rendered asynchronously
   (async () => {
     try {
       const repos = await fetchRepos();
@@ -25,12 +33,14 @@ const createReposPage = () => {
       // Remove loading indicator
       clearElement(container);
 
-      // Render fetched data
       const repoList = createElement('ul', { class: 'no-bullets' });
       container.appendChild(repoList);
 
       repos.forEach((repo) => {
         const listItemView = createRepoListItemView(repo);
+        listItemView.root.addEventListener('click', () => {
+          navigateTo('repo', repo.owner.login, repo.name);
+        });
         repoList.appendChild(listItemView.root);
       });
     } catch (err) {

@@ -21,6 +21,7 @@ In the next few sections we will detail the guidelines and standards.
 ```text
 public
 src
+└── fetchers
 └── lib
 └── pages
 └── views
@@ -34,6 +35,7 @@ index.html
 |--------|-------------|
 | `public` | This folder contains the static files that can be used by our `index.html` file. |
 | `src` | This contains all of our JavaScript code. |
+| `src/fetchers` | This folders contain functions that deal with fetching application data from specific urls for use by Page functions. |
 | `src/lib` | This folder provides a number of ready-made library functions that you can use in your application. |
 | `src/pages` | This folder contains our functions that create pages to be displayed in the UI, for instance a Home page, an About page etc. These functions create the DOM elements, either directly, or by calling View functions from the `src/views` folder. They also handle all user interactions through event handlers. |
 | `src/views` | This folder contains pure functions that create parts of the UI by creating subtrees of DOM elements. |
@@ -48,41 +50,42 @@ A number of ready-made functions are provided in the `src/lib` folder that you c
 > Note: The syntax used below is the same TypeScript syntax that use see in VSCode Intellisense when you hover the mouse pointer over a function header.
 
 ```ts
-// src/lib/dom-helpers.js
+// src/lib/domHelpers.js
 createElement(tagName: string, options?: object) => HTMLElement
 ```
 
 This function creates and returns an HTML element and optionally set its attributes and text content.
 
 ```ts
-// src/lib/dom-helpers.js
+// src/lib/domHelpers.js
 clearElement(element: HTMLElement) => void
 ```
 
 Removes all children (if any) from an element.
 
 ```ts
-// src/lib/fetch-data.js
+// src/lib/fetchData.js
 fetchData(url: string) => Promise<any>
 ```
 
 Fetches JSON data from the Web API specified by the `url` parameter.
 
 ```ts
-// src/lib/fetch-data.js
+// src/lib/fetchData.js
 fetchCachedData(url: string) => Promise<any>
 ```
 
 Fetches JSON data from the Web API specified by the `url` parameter. Caches the response. Subsequent requests to the same `url` are served from the cache. This is particularly useful when using Web APIs that use request rate limiting.
 
 ```ts
-// src/lic/hash-router.js
+// src/lib/hashRouter.js
 createRouter(routes: Route[]) => void
 ```
 
 This function creates a hash-based router. It takes an array of 'routes' as its argument. Please see the section **Routing** below for more details.
 
 ```ts
+// src/lib/hashRouter.js
 navigateTo(pageName: string, ...args: any) => void
 ```
 

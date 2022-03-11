@@ -1,27 +1,12 @@
 //@ts-check
-import { createElement } from '../lib/dom-helpers.js';
-import { navigateTo } from '../lib/hash-router.js';
+import { navigateTo } from '../lib/hashRouter.js';
+import createHomeView from '../views/homeView.js';
 
 const createHomePage = () => {
-  const root = createElement('div', {
-    class: 'whiteframe',
-  });
-
-  const container = createElement('div', { class: 'dialog-container' });
-  root.appendChild(container);
-
-  // To keep things simple, let's use an HTML template here.
-  const introTemplate = document.getElementById('intro');
-  //@ts-ignore
-  container.appendChild(introTemplate.content.cloneNode(true));
-
-  const startBtn = createElement('button', {
-    type: 'button',
-    text: 'Demo',
-  });
-  container.appendChild(startBtn);
+  const { root, startBtn, aboutBtn } = createHomeView();
 
   startBtn.addEventListener('click', () => navigateTo('repos'));
+  aboutBtn.addEventListener('click', () => navigateTo('about'));
 
   return { root };
 };

@@ -1,6 +1,6 @@
 //@ts-check
-import { createElement } from '../lib/dom-helpers.js';
-import { navigateTo } from '../lib/hash-router.js';
+import { createElement } from '../lib/domHelpers.js';
+import { navigateTo } from '../lib/hashRouter.js';
 
 const createErrorPage = () => {
   const root = createElement('div', {

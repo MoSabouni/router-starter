@@ -3,7 +3,7 @@
  * This file is provided ready-made for use in your application by HackYourFuture.
  * There should be no reason to make any changes to this file.
  */
-import { clearElement } from './dom-helpers.js';
+import { clearElement } from './domHelpers.js';
 
 /**
  * Navigates to a specified page.

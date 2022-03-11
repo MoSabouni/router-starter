@@ -1,6 +1,6 @@
 //@ts-check
-import { createElement } from './lib/dom-helpers.js';
-import createRouter from './lib/hash-router.js';
+import { createElement } from './lib/domHelpers.js';
+import createRouter from './lib/hashRouter.js';
 import routes from './pages/routes.js';
 
 const loadApp = () => {

@@ -1,9 +1,14 @@
 //@ts-check
-import { createElement } from '../lib/dom-helpers.js';
+import { createElement } from '../lib/domHelpers.js';
 
 const createRepoListItem = (repo) => {
   const li = createElement('li', { class: 'list-item whiteframe' });
-  li.appendChild(createElement('div', { text: repo.name }));
+
+  const repoName = createElement('span', { text: repo.name });
+  li.appendChild(repoName);
+
+  const arrow = createElement('i', { class: 'fa-solid fa-chevron-right' });
+  li.appendChild(arrow);
 
   return { root: li };
 };
