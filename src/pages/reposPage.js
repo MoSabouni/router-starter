@@ -39,7 +39,7 @@ const createReposPage = () => {
     }
   })();
 
-  return root;
+  return { root };
 };
 
 export default createReposPage;

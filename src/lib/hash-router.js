@@ -7,11 +7,12 @@ import { clearElement } from './dom-helpers.js';
 
 /**
  * Navigates to a specified page.
- * @param  {*} args First arg is the pathname, any remaining args are
- * passed to the associated page creator function.
+ * @param {string} pageName The name of the page to load.
+ * @param {*} args First arg is the pathname, any remaining args are
+ * passed to the page creator function.
  */
-export const navigateTo = (...args) => {
-  const encodedHash = encodeURI('#' + args.join('/'));
+export const navigateTo = (pageName, ...args) => {
+  const encodedHash = encodeURI('#' + [pageName, ...args].join('/'));
   window.location.assign(encodedHash);
 };
 
@@ -21,12 +22,13 @@ const getRouteParts = () => {
   return [path, ...rest];
 };
 
-/** @typedef {(...args: any) => HTMLElement} ElementFactoryFunction */
-/** @typedef {{path: string, page: ElementFactoryFunction, default?: boolean}} RouteDefinition */
+/** @typedef {{root: HTMLElement}} ViewObject*/
+/** @typedef {(...args: any) => ViewObject} ViewFunction */
+/** @typedef {{path: string, page: ViewFunction, default?: boolean}} Route */
 
 /**
  * Create a location hash based router.
- * @param {RouteDefinition[]} routes An array of route objects.
+ * @param {Route[]} routes An array of route objects.
  */
 const createRouter = (routes) => {
   // Find the first route object in the `routes` table that has the property
@@ -49,7 +51,7 @@ const createRouter = (routes) => {
     const [pathname, ...params] = getRouteParts();
 
     // Find the page corresponding to the current hash value
-    let route = findRouteByPathname(pathname);
+    const route = findRouteByPathname(pathname);
 
     // If not found, redirect to default page
     if (!route) {
@@ -60,13 +62,13 @@ const createRouter = (routes) => {
     // Create the page corresponding to the route.
     // The page creation function is expected to return its root element
     // in the root property of the returned object.
-    const pageRoot = route.page(...params);
+    const { root } = route.page(...params);
 
     // Clear the content router outlet container and append the page
     // root element as its new child.
     const routerOutlet = document.getElementById('router-outlet');
     clearElement(routerOutlet);
-    routerOutlet.appendChild(pageRoot);
+    routerOutlet.appendChild(root);
   }); // end of event handler
 
   // Kickstart the router at creation time.

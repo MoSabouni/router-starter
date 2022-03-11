@@ -19,7 +19,7 @@ const createErrorPage = () => {
 
   homeBtn.addEventListener('click', () => navigateTo('home'));
 
-  return root;
+  return { root };
 };
 
 export default createErrorPage;

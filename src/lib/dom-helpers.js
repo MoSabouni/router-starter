@@ -7,7 +7,7 @@
 /**
  * Create an HTML element and optionally set attributes and text content.
  * @param {string} tagName The name of the element to create
- * @param {*} options An object with key-value pairs of attributes.
+ * @param {object} options An object with key-value pairs of attributes.
  * @returns
  */
 export const createElement = (tagName = 'div', options = {}) => {

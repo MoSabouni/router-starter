@@ -23,7 +23,7 @@ const createHomePage = () => {
 
   startBtn.addEventListener('click', () => navigateTo('repos'));
 
-  return root;
+  return { root };
 };
 
 export default createHomePage;
