@@ -23,14 +23,14 @@ const getRouteParts = () => {
 };
 
 /** @typedef {{root: HTMLElement}} ViewObject*/
-/** @typedef {(...args: any) => ViewObject} ViewFunction */
+/** @typedef {(context: object, ...args: any) => ViewObject} ViewFunction */
 /** @typedef {{path: string, page: ViewFunction, default?: boolean}} Route */
 
 /**
  * Create a location hash based router.
  * @param {Route[]} routes An array of route objects.
  */
-const createRouter = (routes) => {
+const createRouter = (routes, context = {}) => {
   // Find the first route object in the `routes` table that has the property
   // `default` set to `true` (or thruthy). This is the default route.
   const getDefaultRoute = () => {
@@ -62,7 +62,7 @@ const createRouter = (routes) => {
     // Create the page corresponding to the route.
     // The page creation function is expected to return its root element
     // in the root property of the returned object.
-    const { root } = route.page(...params);
+    const { root } = route.page(context, ...params);
 
     // Clear the content router outlet container and append the page
     // root element as its new child.

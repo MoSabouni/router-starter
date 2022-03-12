@@ -7,7 +7,7 @@ import createHeaderView from '../views/headerView.js';
 import fetchRepo from '../fetchers/repoFetcher.js';
 import createLoadingIndicator from '../views/loadingIndicator.js';
 
-const createRepoDetailPage = (owner, repoName) => {
+const createRepoDetailPage = (context, owner, repoName) => {
   const root = createElement();
 
   const backBtn = createElement('button', {
