@@ -3,12 +3,9 @@ import { navigateTo } from '../lib/hashRouter.js';
 import createHomeView from '../views/homeView.js';
 
 const createHomePage = () => {
-  const { root, startBtn, aboutBtn } = createHomeView();
-
-  startBtn.addEventListener('click', () => navigateTo('repos'));
-  aboutBtn.addEventListener('click', () => navigateTo('about'));
-
-  return { root };
+  const onStart = () => navigateTo('repos');
+  const onAbout = () => navigateTo('about');
+  return createHomeView({ onStart, onAbout });
 };
 
 export default createHomePage;

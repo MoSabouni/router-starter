@@ -1,12 +1,12 @@
 //@ts-check
 import { createElement } from '../lib/domHelpers.js';
 
-function createContributorListView(contributors) {
-  const container = createElement('section', {
+function createContributorListView(props) {
+  const root = createElement('section', {
     class: 'contributors-container whiteframe',
   });
 
-  container.appendChild(
+  root.appendChild(
     createElement('div', {
       text: 'Contributions',
       class: 'contributor-header',
@@ -16,12 +16,9 @@ function createContributorListView(contributors) {
   const ul = createElement('ul', {
     class: 'contributor-list',
   });
-  container.appendChild(ul);
+  root.appendChild(ul);
 
-  if (!contributors) {
-    return;
-  }
-  contributors.forEach((contributor) => {
+  props.contributors.forEach((contributor) => {
     const li = createElement('li');
     ul.appendChild(li);
 
@@ -52,7 +49,7 @@ function createContributorListView(contributors) {
     );
   });
 
-  return { root: container };
+  return { root };
 }
 
 export default createContributorListView;

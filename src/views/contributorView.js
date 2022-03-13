@@ -1,10 +1,12 @@
 //@ts-check
 import { createElement } from '../lib/domHelpers.js';
 
-const createContributorView = (label, value) => {
+const createContributorView = (props) => {
   const row = createElement('tr');
-  row.appendChild(createElement('th', { text: `${label}:`, class: 'label' }));
-  const valueText = createElement('td', { text: value });
+  row.appendChild(
+    createElement('th', { text: `${props.label}:`, class: 'label' })
+  );
+  const valueText = createElement('td', { text: props.value });
   row.appendChild(valueText);
   return { root: row, valueText };
 };

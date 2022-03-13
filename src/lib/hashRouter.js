@@ -22,9 +22,10 @@ const getRouteParts = () => {
   return [path, ...rest];
 };
 
-/** @typedef {{root: HTMLElement}} ViewObject*/
-/** @typedef {(context: object, ...args: any) => ViewObject} ViewFunction */
-/** @typedef {{path: string, page: ViewFunction, default?: boolean}} Route */
+/** @typedef {(data: object, action?: string) => void} UpdateCallback*/
+/** @typedef {{root: HTMLElement, update?: UpdateCallback}} ViewObject*/
+/** @typedef {(context?: object, data?: object) => ViewObject} PageFunction */
+/** @typedef {{path: string, page: PageFunction, default?: boolean}} Route */
 
 /**
  * Create a location hash based router.
@@ -62,7 +63,7 @@ const createRouter = (routes, context = {}) => {
     // Create the page corresponding to the route.
     // The page creation function is expected to return its root element
     // in the root property of the returned object.
-    const { root } = route.page(context, ...params);
+    const { root } = route.page(context, params);
 
     // Clear the content router outlet container and append the page
     // root element as its new child.

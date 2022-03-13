@@ -6,7 +6,7 @@ import createHeaderView from '../views/headerView.js';
 import fetchRepos from '../fetchers/reposFetcher.js';
 import createLoadingIndicator from '../views/loadingIndicator.js';
 
-const createReposPage = () => {
+const createReposPage = (context) => {
   const root = createElement('div', { class: 'repos-container' });
 
   const headerContent = createElement('div', { class: 'header-content' });
@@ -26,6 +26,8 @@ const createReposPage = () => {
   const loadingIndicator = createLoadingIndicator();
   container.appendChild(loadingIndicator.root);
 
+  context.error = null;
+
   (async () => {
     try {
       const repos = await fetchRepos();
@@ -36,15 +38,17 @@ const createReposPage = () => {
       const repoList = createElement('ul', { class: 'no-bullets' });
       container.appendChild(repoList);
 
+      const onClick = (repo) => {
+        navigateTo('repo', repo.owner.login, repo.name);
+      };
+
       repos.forEach((repo) => {
-        const listItemView = createRepoListItemView(repo);
-        listItemView.root.addEventListener('click', () => {
-          navigateTo('repo', repo.owner.login, repo.name);
-        });
+        const listItemView = createRepoListItemView({ repo, onClick });
         repoList.appendChild(listItemView.root);
       });
     } catch (err) {
       console.error(err.message);
+      context.error = err;
       navigateTo('error');
     }
   })();

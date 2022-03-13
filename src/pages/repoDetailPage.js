@@ -7,7 +7,7 @@ import createHeaderView from '../views/headerView.js';
 import fetchRepo from '../fetchers/repoFetcher.js';
 import createLoadingIndicator from '../views/loadingIndicator.js';
 
-const createRepoDetailPage = (context, owner, repoName) => {
+const createRepoDetailPage = (context, [owner, repoName]) => {
   const root = createElement();
 
   const backBtn = createElement('button', {
@@ -25,6 +25,8 @@ const createRepoDetailPage = (context, owner, repoName) => {
   const loadingIndicator = createLoadingIndicator();
   container.appendChild(loadingIndicator.root);
 
+  context.error = null;
+
   (async () => {
     try {
       const { repo, contributors } = await fetchRepo(owner, repoName);
@@ -35,10 +37,11 @@ const createRepoDetailPage = (context, owner, repoName) => {
       const repoView = createRepoDetailView(repo);
 
       container.appendChild(repoView.root);
-      const contributorsView = createContributorListView(contributors);
+      const contributorsView = createContributorListView({ contributors });
       container.appendChild(contributorsView.root);
     } catch (err) {
       console.error(err.message);
+      context.error = err;
       navigateTo('error');
     }
   })();

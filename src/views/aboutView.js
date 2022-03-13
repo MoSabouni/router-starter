@@ -14,7 +14,7 @@ const content = {
   ],
 };
 
-const createAboutView = () => {
+const createAboutView = (props) => {
   const root = createElement('div', { class: 'centered' });
 
   const title = createElement('h1', { text: content.title });
@@ -35,6 +35,8 @@ const createAboutView = () => {
 
   const { root: homeBtn } = createButtonView('Home');
   buttonContainer.appendChild(homeBtn);
+
+  homeBtn.addEventListener('click', props.onClick);
 
   return { root, homeBtn };
 };

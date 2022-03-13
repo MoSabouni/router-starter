@@ -5,10 +5,10 @@ import createAboutView from '../views/aboutView.js';
 const createAboutPage = () => {
   const root = createElement('div', { class: 'dialog-container' });
 
-  const aboutView = createAboutView();
-  root.appendChild(aboutView.root);
+  const onClick = () => navigateTo('home');
 
-  aboutView.homeBtn.addEventListener('click', () => navigateTo('home'));
+  const aboutView = createAboutView({ onClick });
+  root.appendChild(aboutView.root);
 
   return { root };
 };

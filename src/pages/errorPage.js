@@ -2,20 +2,20 @@
 import { createElement } from '../lib/domHelpers.js';
 import { navigateTo } from '../lib/hashRouter.js';
 
-const createErrorPage = () => {
+const createErrorPage = (context) => {
   const root = createElement('div', {
-    class: 'alert alert-error',
+    class: 'dialog-container',
   });
-
-  root.appendChild(
-    createElement('div', { text: 'Oops... something went wrong' })
-  );
-
+  createElement('div', {
+    class: 'alert alert-error',
+    text: context.error?.message ?? 'Oops... something went wrong.',
+    appendTo: root,
+  });
   const homeBtn = createElement('button', {
     type: 'button',
     text: 'Back to home page',
+    appendTo: root,
   });
-  root.appendChild(homeBtn);
 
   homeBtn.addEventListener('click', () => navigateTo('home'));
 

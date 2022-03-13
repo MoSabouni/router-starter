@@ -14,7 +14,7 @@ export const createElement = (tagName = 'div', options = {}) => {
   const elem = document.createElement(tagName);
 
   // `text` is not a regular attribute but must be set via `.textContent`
-  const { text, ...rest } = options;
+  const { text, appendTo, ...rest } = options;
 
   // set regular attributes
   for (const [name, value] of Object.entries(rest)) {
@@ -24,6 +24,11 @@ export const createElement = (tagName = 'div', options = {}) => {
   // set text (if any) using `.textContent`
   if (text) {
     elem.textContent = text;
+  }
+
+  // Append to parent element is specified.
+  if (appendTo) {
+    appendTo.appendChild(elem);
   }
 
   return elem;

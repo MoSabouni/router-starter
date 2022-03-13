@@ -7,7 +7,7 @@ const content = {
     'Features a hash-based router written in plain vanilla JavaScript. This example uses the GitHub API to lists repositories from the HackYourFuture organization.',
 };
 
-const createHomeView = () => {
+const createHomeView = (props) => {
   const root = createElement('div', {
     class: 'dialog-container',
   });
@@ -23,9 +23,11 @@ const createHomeView = () => {
 
   const { root: startBtn } = createButtonView('Start');
   buttonContainer.appendChild(startBtn);
+  startBtn.addEventListener('click', props.onStart);
 
   const { root: aboutBtn } = createButtonView('About');
   buttonContainer.appendChild(aboutBtn);
+  aboutBtn.addEventListener('click', props.onAbout);
 
   return { root, startBtn, aboutBtn };
 };
