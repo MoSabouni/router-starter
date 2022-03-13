@@ -3,7 +3,6 @@
  * This file is provided ready-made for use in your application by HackYourFuture.
  * There should be no reason to make any changes to this file.
  */
-import { clearElement } from './domHelpers.js';
 
 /**
  * Navigates to a specified page.
@@ -68,7 +67,7 @@ const createRouter = (routes, context = {}) => {
     // Clear the content router outlet container and append the page
     // root element as its new child.
     const routerOutlet = document.getElementById('router-outlet');
-    clearElement(routerOutlet);
+    routerOutlet.innerHTML = '';
     routerOutlet.appendChild(root);
   }); // end of event handler
 

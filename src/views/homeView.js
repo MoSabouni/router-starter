@@ -1,35 +1,26 @@
-import { createElement } from '../lib/domHelpers.js';
-import createButtonView from './buttonView.js';
-
-const content = {
-  title: 'Router Starter Application',
-  description:
-    'Features a hash-based router written in plain vanilla JavaScript. This example uses the GitHub API to lists repositories from the HackYourFuture organization.',
-};
-
 const createHomeView = (props) => {
-  const root = createElement('div', {
-    class: 'dialog-container',
-  });
+  const root = document.createElement('div');
+  root.className = 'dialog-container';
 
-  const title = createElement('h1', { text: content.title });
-  root.appendChild(title);
+  root.innerHTML = String.raw`
+    <h1>Router Starter Application</h1>
+    <p>Features a hash-based router written in plain vanilla JavaScript. 
+      This example uses the GitHub API to lists repositories from the 
+      HackYourFuture organization.
+    </p>
+    <div class="button-container">
+      <button type="button" id="start-btn">Start</button>
+      <button type="button" id="about-btn">About</button>
+    </div>
+  `;
 
-  const description = createElement('p', { text: content.description });
-  root.appendChild(description);
+  const startButton = root.querySelector('#start-btn');
+  startButton.addEventListener('click', props.onStart);
 
-  const buttonContainer = createElement('div', { class: 'button-container' });
-  root.appendChild(buttonContainer);
+  const aboutButton = root.querySelector('#about-btn');
+  aboutButton.addEventListener('click', props.onAbout);
 
-  const { root: startBtn } = createButtonView('Start');
-  buttonContainer.appendChild(startBtn);
-  startBtn.addEventListener('click', props.onStart);
-
-  const { root: aboutBtn } = createButtonView('About');
-  buttonContainer.appendChild(aboutBtn);
-  aboutBtn.addEventListener('click', props.onAbout);
-
-  return { root, startBtn, aboutBtn };
+  return { root };
 };
 
 export default createHomeView;

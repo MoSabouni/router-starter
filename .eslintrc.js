@@ -12,12 +12,5 @@ module.exports = {
   rules: {
     'no-var': 'error',
     'prefer-const': 'warn',
-    'no-restricted-syntax': [
-      'error',
-      {
-        selector: "MemberExpression[property.name='innerHTML']",
-        message: 'Do not use `.innerHTML`. Use `createElement()` instead.',
-      },
-    ],
   },
 };

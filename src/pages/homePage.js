@@ -1,4 +1,3 @@
-//@ts-check
 import { navigateTo } from '../lib/hashRouter.js';
 import createHomeView from '../views/homeView.js';
 

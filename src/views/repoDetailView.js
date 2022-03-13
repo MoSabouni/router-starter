@@ -1,48 +1,59 @@
-//@ts-check
-import { createElement } from '../lib/domHelpers.js';
-import createContributorView from './contributorView.js';
+import createLoadingIndicator from './loadingIndicator.js';
+import createHeaderView from './headerView.js';
+import createContributorListView from './contributorListView.js';
 
-function createRepoDetailView(repo) {
-  const root = createElement('section', {
-    class: 'repo-container whiteframe',
-  });
-  const cardContainer = createElement('div', {
-    class: 'card-container',
-    appendTo: root,
-  });
-  const table = createElement('table', { appendTo: cardContainer });
-  const tbody = createElement('tbody', { appendTo: table });
-  const repoNameView = createContributorView({ label: 'Repository' });
-  tbody.appendChild(repoNameView.root);
+function createRepoDetailView(props) {
+  const root = document.createElement('div');
 
-  repoNameView.valueText.appendChild(
-    createElement('a', {
-      href: repo.html_url,
-      target: '_blank',
-      text: repo.name,
-    })
-  );
+  const backBtn = document.createElement('button');
+  backBtn.type = 'button';
+  backBtn.textContent = 'Back to repositories';
+  backBtn.addEventListener('click', props.onBack);
 
-  const descriptionView = createContributorView({
-    label: 'Description',
-    value: repo.description || '',
-  });
-  tbody.appendChild(descriptionView.root);
+  const headerView = createHeaderView(backBtn);
+  root.appendChild(headerView.root);
 
-  const forksView = createContributorView({
-    label: 'Forks',
-    value: repo.forks,
-  });
-  tbody.appendChild(forksView.root);
+  const container = document.createElement('div');
+  container.className = 'repo-detail-container';
+  root.appendChild(container);
 
-  const lastUpdatedView = createContributorView({
-    label: 'Updated',
-    value: new Date(repo.updated_at).toLocaleString(),
-  });
+  const loadingIndicator = createLoadingIndicator();
+  container.appendChild(loadingIndicator.root);
 
-  tbody.appendChild(lastUpdatedView.root);
+  const update = ({ repo, contributors }) => {
+    container.innerHTML = String.raw`
+      <section class="repo-container whiteframe">
+        <div class="card-container">
+          <table>
+            <tbody>
+              <tr>
+                <th>Repository:</td>
+                <td>
+                  <a href="${repo.html_url}" target="_blank">${repo.name}</a>
+                </td>
+              <tr>
+                <th>Description:</td>
+                <td>${repo.description || '(none)'}</td>
+              </tr>
+              <tr>
+                <th>Fork:</td>
+                <td>${repo.forks}</td>
+              </tr>
+              <tr>
+                <th>Updated:</td>
+                <td>${new Date(repo.updated_at).toLocaleString()}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    `;
 
-  return { root };
+    const contributorsView = createContributorListView({ contributors });
+    container.appendChild(contributorsView.root);
+  };
+
+  return { root, update };
 }
 
 export default createRepoDetailView;

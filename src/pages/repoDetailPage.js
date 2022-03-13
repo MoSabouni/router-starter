@@ -1,44 +1,20 @@
-//@ts-check
-import { createElement, clearElement } from '../lib/domHelpers.js';
-import { navigateTo } from '../lib/hashRouter.js';
-import createContributorListView from '../views/contributorListView.js';
-import createRepoDetailView from '../views/repoDetailView.js';
-import createHeaderView from '../views/headerView.js';
 import fetchRepo from '../fetchers/repoFetcher.js';
-import createLoadingIndicator from '../views/loadingIndicator.js';
+import { navigateTo } from '../lib/hashRouter.js';
+import createRepoDetailView from '../views/repoDetailView.js';
 
 const createRepoDetailPage = (context, [owner, repoName]) => {
-  const root = createElement();
+  const onBack = () => navigateTo('repos');
+  const root = document.createElement('div');
 
-  const backBtn = createElement('button', {
-    type: 'button',
-    text: 'Back to repositories',
-  });
-  backBtn.addEventListener('click', () => navigateTo('repos'));
-
-  const headerView = createHeaderView(backBtn);
-  root.appendChild(headerView.root);
-
-  const container = createElement('div', { class: 'repo-detail-container' });
-  root.appendChild(container);
-
-  const loadingIndicator = createLoadingIndicator();
-  container.appendChild(loadingIndicator.root);
+  const repoView = createRepoDetailView({ onBack });
+  root.appendChild(repoView.root);
 
   context.error = null;
 
   (async () => {
     try {
       const { repo, contributors } = await fetchRepo(owner, repoName);
-
-      // Remove loading indicator
-      clearElement(container);
-
-      const repoView = createRepoDetailView(repo);
-
-      container.appendChild(repoView.root);
-      const contributorsView = createContributorListView({ contributors });
-      container.appendChild(contributorsView.root);
+      repoView.update({ repo, contributors });
     } catch (err) {
       console.error(err.message);
       context.error = err;

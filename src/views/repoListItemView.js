@@ -1,12 +1,13 @@
-//@ts-check
-import { createElement } from '../lib/domHelpers.js';
+const createRepoListItem = ({ repo, onItemClick }) => {
+  const li = document.createElement('li');
+  li.className = 'list-item whiteframe';
 
-const createRepoListItem = ({ repo, onClick }) => {
-  const li = createElement('li', { class: 'list-item whiteframe' });
-  createElement('span', { text: repo.name, appendTo: li });
-  createElement('i', { class: 'fa-solid fa-chevron-right', appendTo: li });
+  li.innerHTML = String.raw`
+    <span>${repo.name}</span>
+    <i class="fa-solid fa-chevron-right"></i>
+  `;
 
-  li.addEventListener('click', () => onClick(repo));
+  li.addEventListener('click', () => onItemClick(repo));
   return { root: li };
 };
 

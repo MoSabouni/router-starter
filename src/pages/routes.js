@@ -1,4 +1,3 @@
-//@ts-check
 import createHomePage from './homePage.js';
 import createReposPage from './reposPage.js';
 import createRepoDetailPage from './repoDetailPage.js';
