@@ -10,7 +10,6 @@ function createReposPage(state) {
 
   state.error = null;
   state.loading = true;
-
   reposView.update(state);
 
   (async () => {

@@ -27,9 +27,9 @@ function createRepoDetailView(props) {
     }
 
     if (state.loading) {
-      container.appendChild(loadingIndicator.root);
+      loadingIndicator.root.hidden = false;
     } else {
-      container.removeChild(loadingIndicator.root);
+      loadingIndicator.root.hidden = true;
     }
 
     if (state.error) {

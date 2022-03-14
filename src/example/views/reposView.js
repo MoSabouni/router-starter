@@ -16,6 +16,7 @@ function createReposView(props) {
   root.appendChild(container);
 
   const loadingIndicator = createLoadingIndicator();
+  container.appendChild(loadingIndicator.root);
 
   const update = (state) => {
     if (DEBUG) {
@@ -23,9 +24,9 @@ function createReposView(props) {
     }
 
     if (state.loading) {
-      container.appendChild(loadingIndicator.root);
+      loadingIndicator.root.hidden = false;
     } else {
-      container.removeChild(loadingIndicator.root);
+      loadingIndicator.root.hidden = true;
     }
 
     if (state.error) {
