@@ -7,7 +7,7 @@ function loadApp() {
   routerOutlet.id = 'router-outlet';
   appRoot.appendChild(routerOutlet);
 
-  createRouter(routes);
+  createRouter(routes, routerOutlet);
 }
 
 window.addEventListener('load', loadApp);

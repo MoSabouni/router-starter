@@ -29,8 +29,10 @@ const getRouteParts = () => {
 /**
  * Create a location hash based router.
  * @param {Route[]} routes An array of route objects.
+ * @param {HTMLElement} routerOutlet The DOM element where page are loaded into.
+ * @param {object} [context] A context object to be passed to Page functions
  */
-function createRouter(routes, context = {}) {
+function createRouter(routes, routerOutlet, context = {}) {
   // Find the first route object in the `routes` table that has the property
   // `default` set to `true` (or thruthy). This is the default route.
   const getDefaultRoute = () => {
@@ -66,7 +68,6 @@ function createRouter(routes, context = {}) {
 
     // Clear the content router outlet container and append the page
     // root element as its new child.
-    const routerOutlet = document.getElementById('router-outlet');
     routerOutlet.innerHTML = '';
     routerOutlet.appendChild(root);
   }); // end of event handler
