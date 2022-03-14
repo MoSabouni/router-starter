@@ -167,7 +167,7 @@ The `path` property identifies the name of the page. The `page` property identif
 The main code of the router is inside the function `createRouter()`. Below is a simplified part of the code that illustrates how the router works.
 
 ```js
-const createRouter = (routes, context = {}) => {
+const createRouter = (routes, routerOut, context = {}) => {
   //...
   window.addEventListener('hashchange', () => {
     // Search the routes table for the route corresponding to the path name.
@@ -175,7 +175,6 @@ const createRouter = (routes, context = {}) => {
     // Call the Page function to create the page.
     const { root } = route.page(context, ...params);
     // Mount the page in the DOM, removing any previous page.
-    const routerOutlet = document.getElementById('router-outlet');
     clearElement(routerOutlet);
     routerOutlet.appendChild(root);
   });
