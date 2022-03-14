@@ -58,7 +58,7 @@ Fetches JSON data from the Web API specified by the `url` parameter.
 
 ```ts
 // src/lib/fetchData.js
-fetchCachedData(url: string) => Promise<any>
+fetchData(url: string, options?: object) => Promise<any>
 ```
 
 Fetches JSON data from the Web API specified by the `url` parameter. Caches the response. Subsequent requests to the same `url` are served from the cache. This is particularly useful when using Web APIs that use request rate limiting.

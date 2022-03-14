@@ -8,35 +8,38 @@ import { DEBUG } from '../constants.js';
 const cache = new Map();
 
 /**
- * Fetch data using an HTTP GET request.
+ * Fetch data using an HTTP GET request and optionally cache the response.
  * @param {string} url The url to fetch from.
  */
-export async function fetchData(url) {
-  const res = await fetch(url);
-  if (!res.ok) {
-    throw new Error(`HTTP ${res.status}  ${res.statusText}`);
-  }
-  return res.json();
-}
+async function fetchData(url, options = {}) {
+  let data;
 
-/**
- * Fetch data using an HTTP GET request and cache the response.
- * @param {string} url The url to fetch from.
- */
-export async function fetchCachedData(url) {
-  let data = cache.get(url);
-  if (data) {
-    if (DEBUG) {
-      console.log(`cache hit: ${url}`);
+  if (options.cache) {
+    data = cache.get(url);
+    if (data) {
+      if (DEBUG) {
+        console.log(`cache hit: ${url}`);
+      }
+      return data;
     }
-    return data;
   }
 
   if (DEBUG) {
     console.warn(`cache miss: ${url}`);
   }
 
-  data = await fetchData(url);
-  cache.set(url, data);
+  const res = await fetch(url);
+  if (!res.ok) {
+    throw new Error(`HTTP ${res.status}  ${res.statusText}`);
+  }
+
+  data = await res.json();
+
+  if (options.cache) {
+    cache.set(url, data);
+  }
+
   return data;
 }
+
+export default fetchData;
