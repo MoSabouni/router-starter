@@ -1,4 +1,6 @@
 //@ts-check
+import { DEBUG } from '../constants.js';
+
 /**
  * This file is provided ready-made for use in your application by HackYourFuture.
  * There should be no reason to make any changes to this file.
@@ -24,11 +26,15 @@ export async function fetchData(url) {
 export async function fetchCachedData(url) {
   let data = cache.get(url);
   if (data) {
-    console.log(`cache hit: ${url}`);
+    if (DEBUG) {
+      console.log(`cache hit: ${url}`);
+    }
     return data;
   }
 
-  console.warn(`cache miss: ${url}`);
+  if (DEBUG) {
+    console.warn(`cache miss: ${url}`);
+  }
 
   data = await fetchData(url);
   cache.set(url, data);

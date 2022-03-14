@@ -1,6 +1,7 @@
 import createLoadingIndicator from './loadingIndicator.js';
 import createHeaderView from './headerView.js';
 import createContributorListView from './contributorListView.js';
+import { DEBUG } from '../../constants.js';
 
 function createRepoDetailView(props) {
   const root = document.createElement('div');
@@ -20,7 +21,29 @@ function createRepoDetailView(props) {
   const loadingIndicator = createLoadingIndicator();
   container.appendChild(loadingIndicator.root);
 
-  const update = ({ repo, contributors }) => {
+  const update = (state) => {
+    if (DEBUG) {
+      console.log('repo detail state', state);
+    }
+
+    if (state.loading) {
+      container.appendChild(loadingIndicator.root);
+    } else {
+      container.removeChild(loadingIndicator.root);
+    }
+
+    if (state.error) {
+      // TODO: render error to the DOM
+      console.log(state.error.message);
+      return;
+    }
+
+    if (state.loading) {
+      return;
+    }
+
+    const { repo, contributors } = state;
+
     container.innerHTML = String.raw`
       <section class="repo-container whiteframe">
         <div class="card-container">

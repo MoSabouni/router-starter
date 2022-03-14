@@ -23,16 +23,16 @@ const getRouteParts = () => {
 
 /** @typedef {(data: object, action?: string) => void} UpdateCallback*/
 /** @typedef {{root: HTMLElement, update?: UpdateCallback}} ViewObject*/
-/** @typedef {(context?: object, data?: object) => ViewObject} PageFunction */
+/** @typedef {(state?: object, data?: object) => ViewObject} PageFunction */
 /** @typedef {{path: string, page: PageFunction, default?: boolean}} Route */
 
 /**
  * Create a location hash based router.
  * @param {Route[]} routes An array of route objects.
  * @param {HTMLElement} routerOutlet The DOM element where page are loaded into.
- * @param {object} [context] A context object to be passed to Page functions
+ * @param {object} [state] A state object to be passed to Page functions
  */
-function createRouter(routes, routerOutlet, context = {}) {
+function createRouter(routes, routerOutlet, state = {}) {
   // Find the first route object in the `routes` table that has the property
   // `default` set to `true` (or thruthy). This is the default route.
   const getDefaultRoute = () => {
@@ -64,7 +64,7 @@ function createRouter(routes, routerOutlet, context = {}) {
     // Create the page corresponding to the route.
     // The page creation function is expected to return its root element
     // in the root property of the returned object.
-    const { root } = route.page(context, params);
+    const { root } = route.page(state, params);
 
     // Clear the content router outlet container and append the page
     // root element as its new child.
