@@ -3,12 +3,12 @@ function createReposHeaderContentView(props) {
   root.className = 'header-content';
 
   root.innerHTML = String.raw`
-    <button type="button">Home</button>
+    <button type="button" id="btn-home">Home</button>
     <div>HYF Repositories</div>
   `;
 
-  const homeButton = root.querySelector('button');
-  homeButton.addEventListener('click', props.onHomeClick);
+  const btnHome = root.querySelector('#btn-home');
+  btnHome.addEventListener('click', props.onHomeClick);
 
   return { root };
 }

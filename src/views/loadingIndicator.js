@@ -1,4 +1,4 @@
-const createLoadingIndicator = () => {
+function createLoadingIndicator() {
   const root = document.createElement('div');
   root.className = 'loading-indicator';
 
@@ -9,6 +9,6 @@ const createLoadingIndicator = () => {
   `;
 
   return { root };
-};
+}
 
 export default createLoadingIndicator;

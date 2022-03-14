@@ -1,7 +1,7 @@
 function createContributorListItemView({ contributor }) {
-  const li = document.createElement('li');
+  const root = document.createElement('li');
 
-  li.innerHTML = String.raw`
+  root.innerHTML = String.raw`
     <a href="${contributor.html_url}" class="contributor-item"  target="_blank">
     <img src="${contributor.avatar_url}" alt="${contributor.login}"  
         class="contributor-avatar" />
@@ -12,7 +12,7 @@ function createContributorListItemView({ contributor }) {
     </a>
   `;
 
-  return { root: li };
+  return { root };
 }
 
 export default createContributorListItemView;

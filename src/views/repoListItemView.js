@@ -1,4 +1,4 @@
-const createRepoListItem = ({ repo, onItemClick }) => {
+function createRepoListItem({ repo, onItemClick }) {
   const li = document.createElement('li');
   li.className = 'list-item whiteframe';
 
@@ -9,6 +9,6 @@ const createRepoListItem = ({ repo, onItemClick }) => {
 
   li.addEventListener('click', () => onItemClick(repo));
   return { root: li };
-};
+}
 
 export default createRepoListItem;

@@ -1,6 +1,6 @@
-const createAboutView = (props) => {
+function createAboutView(props) {
   const root = document.createElement('div');
-  root.className = 'centered';
+  root.className = 'dialog-container centered';
 
   root.innerHTML = String.raw`
     <h1>Router Starter Application</h1>
@@ -21,6 +21,6 @@ const createAboutView = (props) => {
   homeButton.addEventListener('click', props.onClick);
 
   return { root };
-};
+}
 
 export default createAboutView;

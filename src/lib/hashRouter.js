@@ -30,7 +30,7 @@ const getRouteParts = () => {
  * Create a location hash based router.
  * @param {Route[]} routes An array of route objects.
  */
-const createRouter = (routes, context = {}) => {
+function createRouter(routes, context = {}) {
   // Find the first route object in the `routes` table that has the property
   // `default` set to `true` (or thruthy). This is the default route.
   const getDefaultRoute = () => {
@@ -73,6 +73,6 @@ const createRouter = (routes, context = {}) => {
 
   // Kickstart the router at creation time.
   window.dispatchEvent(new Event('hashchange'));
-};
+}
 
 export default createRouter;

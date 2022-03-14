@@ -9,7 +9,7 @@ function createContributorListView(props) {
     <ul class="contributor-list"></ul>
   `;
 
-  const ul = root.querySelector('ul');
+  const ul = root.querySelector('.contributor-list');
 
   props.contributors.forEach((contributor) => {
     const listItemView = createContributorListItemView({ contributor });

@@ -2,13 +2,10 @@ import fetchRepo from '../fetchers/repoFetcher.js';
 import { navigateTo } from '../lib/hashRouter.js';
 import createRepoDetailView from '../views/repoDetailView.js';
 
-const createRepoDetailPage = (context, [owner, repoName]) => {
-  const onBack = () => navigateTo('repos');
-  const root = document.createElement('div');
+function createRepoDetailPage(context, [owner, repoName]) {
+  const repoView = createRepoDetailView({ onBack: () => navigateTo('repos') });
 
-  const repoView = createRepoDetailView({ onBack });
-  root.appendChild(repoView.root);
-
+  // Clear any previous error
   context.error = null;
 
   (async () => {
@@ -22,7 +19,7 @@ const createRepoDetailPage = (context, [owner, repoName]) => {
     }
   })();
 
-  return { root };
-};
+  return repoView;
+}
 
 export default createRepoDetailPage;

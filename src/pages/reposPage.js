@@ -1,14 +1,12 @@
-import { navigateTo } from '../lib/hashRouter.js';
 import fetchRepos from '../fetchers/reposFetcher.js';
+import { navigateTo } from '../lib/hashRouter.js';
 import createReposView from '../views/reposView.js';
 
-const createReposPage = (context) => {
-  const onHomeClick = () => navigateTo('home');
-  const onItemClick = (repo) => {
-    navigateTo('repo', repo.owner.login, repo.name);
-  };
-
-  const reposView = createReposView({ onHomeClick, onItemClick });
+function createReposPage(context) {
+  const reposView = createReposView({
+    onHomeClick: () => navigateTo('home'),
+    onItemClick: (repo) => navigateTo('repo', repo.owner.login, repo.name),
+  });
 
   context.error = null;
 
@@ -24,6 +22,6 @@ const createReposPage = (context) => {
   })();
 
   return reposView;
-};
+}
 
 export default createReposPage;

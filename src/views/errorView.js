@@ -1,4 +1,4 @@
-const createErrorView = (props) => {
+function createErrorView(props) {
   const root = document.createElement('div');
   root.className = 'dialog-container';
 
@@ -13,6 +13,6 @@ const createErrorView = (props) => {
   homeButton.addEventListener('click', props.onClick);
 
   return { root };
-};
+}
 
 export default createErrorView;

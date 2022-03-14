@@ -1,10 +1,11 @@
 import { navigateTo } from '../lib/hashRouter.js';
 import createHomeView from '../views/homeView.js';
 
-const createHomePage = () => {
-  const onStart = () => navigateTo('repos');
-  const onAbout = () => navigateTo('about');
-  return createHomeView({ onStart, onAbout });
-};
+function createHomePage() {
+  return createHomeView({
+    onStart: () => navigateTo('repos'),
+    onAbout: () => navigateTo('about'),
+  });
+}
 
 export default createHomePage;

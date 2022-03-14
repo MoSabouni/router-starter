@@ -1,12 +1,12 @@
-const createHeaderView = (childRoot) => {
+function createHeaderView(props) {
   const header = document.createElement('header');
   header.className = 'header';
 
-  if (childRoot) {
-    header.appendChild(childRoot);
+  if (props?.content) {
+    header.appendChild(props.content);
   }
 
   return { root: header };
-};
+}
 
 export default createHeaderView;

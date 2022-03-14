@@ -10,7 +10,7 @@ function createRepoDetailView(props) {
   backBtn.textContent = 'Back to repositories';
   backBtn.addEventListener('click', props.onBack);
 
-  const headerView = createHeaderView(backBtn);
+  const headerView = createHeaderView({ content: backBtn });
   root.appendChild(headerView.root);
 
   const container = document.createElement('div');

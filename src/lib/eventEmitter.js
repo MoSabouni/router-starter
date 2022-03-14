@@ -7,7 +7,7 @@
  * Create an Event Emitter
  * @returns
  */
-const createEventEmitter = () => {
+function createEventEmitter() {
   const events = {};
 
   /**
@@ -57,6 +57,6 @@ const createEventEmitter = () => {
   };
 
   return { on, removeListener, emit };
-};
+}
 
 export default createEventEmitter;

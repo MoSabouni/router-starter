@@ -50,20 +50,6 @@ A number of ready-made functions are provided in the `src/lib` folder that you c
 > Note: The syntax used below is the same TypeScript syntax that use see in VSCode Intellisense when you hover the mouse pointer over a function header.
 
 ```ts
-// src/lib/domHelpers.js
-createElement(tagName: string, options?: object) => HTMLElement
-```
-
-This function creates and returns an HTML element and optionally set its attributes and text content.
-
-```ts
-// src/lib/domHelpers.js
-clearElement(element: HTMLElement) => void
-```
-
-Removes all children (if any) from an element.
-
-```ts
 // src/lib/fetchData.js
 fetchData(url: string) => Promise<any>
 ```
@@ -79,10 +65,10 @@ Fetches JSON data from the Web API specified by the `url` parameter. Caches the 
 
 ```ts
 // src/lib/hashRouter.js
-createRouter(routes: Route[]) => void
+createRouter(routes: Route[], context?: {}) => void
 ```
 
-This function creates a hash-based router. It takes an array of 'routes' as its argument. Please see the section **Routing** below for more details.
+This function creates a hash-based router. It takes an array of 'routes' as its first argument and an JavaScript object as an optional second argument. Please see the section **Routing** below for more details.
 
 ```ts
 // src/lib/hashRouter.js
@@ -94,7 +80,7 @@ Encodes the page name and optional arguments into a string and assigns it to the
 ### View functions
 
 ```js
-createXXXView(...args: any) => { root: HTMLElement }
+createXXXView(props?: object) => { root: HTMLElement, update?: Function }
 ```
 
 View functions are _pure_ functions used to render JS data into DOM elements. They take primitives, objects or arrays as arguments and they return a subtree of created DOM elements.
@@ -118,7 +104,7 @@ View functions should _never_ ...
 ### Page functions
 
 ```js
-createXXXPage(...args: any) => { root: HTMLElement }
+createXXXPage(context: object, params?: string[]) => { root: HTMLElement }
 ```
 
 Page functions define user interactions per page. They will:
@@ -183,13 +169,13 @@ The `path` property identifies the name of the page. The `page` property identif
 The main code of the router is inside the function `createRouter()`. Below is a simplified part of the code that illustrates how the router works.
 
 ```js
-const createRouter = (routes) => {
+const createRouter = (routes, context = {}) => {
   //...
   window.addEventListener('hashchange', () => {
     // Search the routes table for the route corresponding to the path name.
     const route = findRouteByPathname(pathname);
     // Call the Page function to create the page.
-    const { root } = route.page(...params);
+    const { root } = route.page(context, ...params);
     // Mount the page in the DOM, removing any previous page.
     const routerOutlet = document.getElementById('router-outlet');
     clearElement(routerOutlet);

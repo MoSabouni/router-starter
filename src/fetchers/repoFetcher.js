@@ -1,7 +1,7 @@
 import { GITHUB_API_BASE_URL } from '../constants.js';
 import { fetchCachedData } from '../lib/fetchData.js';
 
-const fetchRepo = async (owner, repoName) => {
+async function fetchRepo(owner, repoName) {
   const repo = await fetchCachedData(
     `${GITHUB_API_BASE_URL}/repos/${owner}/${repoName}`
   );
@@ -9,6 +9,6 @@ const fetchRepo = async (owner, repoName) => {
     `${repo.contributors_url}?per_page=100`
   );
   return { repo, contributors };
-};
+}
 
 export default fetchRepo;

@@ -1,9 +1,8 @@
 import { navigateTo } from '../lib/hashRouter.js';
 import createErrorView from '../views/errorView.js';
 
-const createErrorPage = (context) => {
-  const onClick = () => navigateTo('home');
-  return createErrorView({ error: context.error, onClick });
-};
+function createErrorPage({ error }) {
+  return createErrorView({ error, onClick: () => navigateTo('home') });
+}
 
 export default createErrorPage;

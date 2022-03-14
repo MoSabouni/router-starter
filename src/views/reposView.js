@@ -8,7 +8,7 @@ function createReposView(props) {
   root.className = 'repos-container';
 
   const headerContent = createReposHeaderContentView(props);
-  const headerView = createHeaderView(headerContent.root);
+  const headerView = createHeaderView({ content: headerContent.root });
   root.appendChild(headerView.root);
 
   const container = document.createElement('div');

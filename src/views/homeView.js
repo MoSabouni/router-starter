@@ -1,4 +1,4 @@
-const createHomeView = (props) => {
+function createHomeView(props) {
   const root = document.createElement('div');
   root.className = 'dialog-container';
 
@@ -14,13 +14,13 @@ const createHomeView = (props) => {
     </div>
   `;
 
-  const startButton = root.querySelector('#start-btn');
-  startButton.addEventListener('click', props.onStart);
+  const btnStart = root.querySelector('#start-btn');
+  btnStart.addEventListener('click', props.onStart);
 
-  const aboutButton = root.querySelector('#about-btn');
-  aboutButton.addEventListener('click', props.onAbout);
+  const btnAbout = root.querySelector('#about-btn');
+  btnAbout.addEventListener('click', props.onAbout);
 
   return { root };
-};
+}
 
 export default createHomeView;
