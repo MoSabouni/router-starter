@@ -1,5 +1,5 @@
-import { GITHUB_API_BASE_URL } from '../constants.js';
-import { fetchCachedData } from '../lib/fetchData.js';
+import { GITHUB_API_BASE_URL } from '../../constants.js';
+import { fetchCachedData } from '../../lib/fetchData.js';
 
 async function fetchRepo(owner, repoName) {
   const repo = await fetchCachedData(

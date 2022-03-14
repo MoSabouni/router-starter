@@ -1,4 +1,4 @@
-import { navigateTo } from '../lib/hashRouter.js';
+import { navigateTo } from '../../lib/hashRouter.js';
 import createErrorView from '../views/errorView.js';
 
 function createErrorPage({ error }) {

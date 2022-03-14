@@ -1,5 +1,5 @@
 import fetchRepo from '../fetchers/repoFetcher.js';
-import { navigateTo } from '../lib/hashRouter.js';
+import { navigateTo } from '../../lib/hashRouter.js';
 import createRepoDetailView from '../views/repoDetailView.js';
 
 function createRepoDetailPage(context, [owner, repoName]) {

@@ -1,5 +1,5 @@
 import fetchRepos from '../fetchers/reposFetcher.js';
-import { navigateTo } from '../lib/hashRouter.js';
+import { navigateTo } from '../../lib/hashRouter.js';
 import createReposView from '../views/reposView.js';
 
 function createReposPage(context) {

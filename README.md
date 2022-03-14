@@ -119,8 +119,6 @@ Each application page will have exactly one corresponding Page function.
 
 A Page function can call upon View functions to create parts of the page UI. It can add event handlers to DOM elements.
 
-> See the file `question-page.js` in the `src/pages` folder for an example of a Page function (`createWelcomePage`) that adds event listeners to DOM child elements returned by a View function (`createWelcomeView`)..
-
 Page functions use the same calling convention as View functions. Any required data should be passed as arguments through the parameter list. A Page function should return a JavaScript object with a `root` property that holds a reference to the root element of the DOM subtree of the page.
 
 A page is loaded into the DOM by passing the Page function and any required parameters to the provided `loadPage()` library function mentioned above.
@@ -184,3 +182,24 @@ const createRouter = (routes, context = {}) => {
   //...
 };
 ```
+
+## Using this starter for your own project
+
+1. Fork this repo and clone it on your computer.
+2. In `src/app.js`, change:
+
+   ```js
+   import routes from './example/pages/routes.js';
+   ```
+
+   to:
+
+   ```js
+   import routes from './pages/routes.js';
+   ```
+
+3. Load the application in your browser. You should now see the message from the Home Page: **It works!**.
+
+4. Change the Home Page and View functions as required for your app.
+
+5. Add further Page, View and helpers function as needed. Update the routes table in `src/page/routes.js` to add routes for the new pages.

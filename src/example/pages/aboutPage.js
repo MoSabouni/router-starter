@@ -1,4 +1,4 @@
-import { navigateTo } from '../lib/hashRouter.js';
+import { navigateTo } from '../../lib/hashRouter.js';
 import createAboutView from '../views/aboutView.js';
 
 function createAboutPage() {

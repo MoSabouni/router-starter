@@ -1,5 +1,5 @@
 import createRouter from './lib/hashRouter.js';
-import routes from './pages/routes.js';
+import routes from './example/pages/routes.js';
 
 function loadApp() {
   const appRoot = document.getElementById('app-root');
