@@ -153,6 +153,10 @@ A View function typically first creates a DOM element that forms the root elemen
 >
 > For more info on the security issues, see [Security considerations](https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML#security_considerations) on the MDN web site.
 
+> Tip: There is a handy VSCode extension that add syntax coloring to JavaScript string templates if they contain HTML code. It also adds [emmet](https://emmet.io/) support. Install this extension and then mark your string templates with `String.raw` to enable the magic.
+>
+> Find it here: [Visual Studio Marketplace: lit-html](https://marketplace.visualstudio.com/items?itemName=bierner.lit-html)
+
 Here is an example:
 
 ```js
