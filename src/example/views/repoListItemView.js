@@ -1,14 +1,17 @@
 function createRepoListItem({ repo, onItemClick }) {
-  const li = document.createElement('li');
-  li.className = 'list-item whiteframe';
+  const root = document.createElement('li');
+  root.className = 'list-item whiteframe';
 
-  li.innerHTML = String.raw`
-    <span>${repo.name}</span>
+  root.innerHTML = String.raw`
+    <div>
+      <h4>${repo.name}</h4>
+      <p>${repo.description}</p>
+    </div>
     <i class="fa-solid fa-chevron-right"></i>
   `;
 
-  li.addEventListener('click', () => onItemClick(repo));
-  return { root: li };
+  root.addEventListener('click', () => onItemClick(repo));
+  return { root };
 }
 
 export default createRepoListItem;

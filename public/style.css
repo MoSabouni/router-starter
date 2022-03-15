@@ -127,8 +127,12 @@ th {
   justify-content: space-between;
   align-items: center;
   margin: 4px 0;
-  padding: 8px;
+  padding: 0 16px;
   cursor: pointer;
+}
+
+.list-item h3 p {
+  padding: 0;
 }
 
 .no-bullets {
