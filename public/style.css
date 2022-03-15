@@ -194,7 +194,7 @@ th {
 }
 
 .filter-view input {
-  margin-left: 8px;
+  margin: 0 4px 0 8px;
 }
 /*
 From: https://code-boxx.com/rotate-spin-image-html-css/#sec-animate 

@@ -45,9 +45,8 @@ function createReposView(props) {
 
     let { repos } = state;
     if (state.filter) {
-      const filter = state.filter.toLowerCase();
       repos = repos.filter((repo) =>
-        repo.name.toLowerCase().startsWith(filter)
+        repo.name.toLowerCase().startsWith(state.filter)
       );
     }
 

@@ -8,7 +8,11 @@ function createReposPage(state) {
     onHomeClick: () => navigateTo('home'),
     onItemClick: (repo) => navigateTo('repo', repo.owner.login, repo.name),
     onFilterInput: (e) => {
-      state.filter = e.target.value;
+      state.filter = e.target.value.trim().toLowerCase();
+      reposView.update(state);
+    },
+    onClearFilter: () => {
+      state.filter = '';
       reposView.update(state);
     },
   });
