@@ -17,15 +17,10 @@ async function fetchData(url, options = {}) {
   if (options.cache) {
     data = cache.get(url);
     if (data) {
-      if (DEBUG) {
-        console.log(`cache hit: ${url}`);
-      }
+      if (DEBUG) console.log(`cache hit: ${url}`);
       return data;
     }
-  }
-
-  if (DEBUG) {
-    console.warn(`cache miss: ${url}`);
+    if (DEBUG) console.warn(`cache miss: ${url}`);
   }
 
   const res = await fetch(url);

@@ -23,9 +23,7 @@ function createReposView(props) {
   container.appendChild(loadingIndicator.root);
 
   const update = (state) => {
-    if (DEBUG) {
-      console.log('repos', state);
-    }
+    if (DEBUG) console.log('repos', state);
 
     if (state.loading) {
       loadingIndicator.root.hidden = false;
@@ -60,6 +58,8 @@ function createReposView(props) {
       });
       repoList.appendChild(listItemView.root);
     });
+
+    filterView.update(state);
   };
 
   return { root, update };

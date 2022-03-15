@@ -13,24 +13,25 @@ function createReposPage(state) {
     },
   });
 
-  // Clear any previous error
-  state.error = null;
-  // Indicate we are about to load (should show spinner)
-  state.loading = true;
-  // Update the view
-  reposView.update(state);
-
   (async () => {
-    try {
-      state.repos = await fetchRepos();
-      state.loading = false;
+    // No need to fetch again if we already have the data.
+    if (!state.repos) {
+      state.error = null;
+      state.loading = true;
       reposView.update(state);
-    } catch (err) {
-      if (DEBUG) {
-        console.error(err.message);
+
+      try {
+        state.repos = await fetchRepos();
+      } catch (err) {
+        if (DEBUG) console.error(err.message);
+
+        navigateTo('error');
+        return;
+      } finally {
+        state.loading = false;
       }
-      navigateTo('error');
     }
+    reposView.update(state);
   })();
 
   return reposView;

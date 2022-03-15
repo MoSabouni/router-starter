@@ -22,9 +22,7 @@ function createRepoDetailView(props) {
   container.appendChild(loadingIndicator.root);
 
   const update = (state) => {
-    if (DEBUG) {
-      console.log('repo detail state', state);
-    }
+    if (DEBUG) console.log('repo detail state', state);
 
     if (state.loading) {
       loadingIndicator.root.hidden = false;

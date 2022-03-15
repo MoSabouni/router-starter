@@ -6,26 +6,24 @@ import createRepoDetailView from '../views/repoDetailView.js';
 function createRepoDetailPage(state, [owner, repoName]) {
   const repoView = createRepoDetailView({ onBack: () => navigateTo('repos') });
 
-  // Clear any previous error
-  state.error = null;
-  // Indicate we are about to load (should show spinner)
-  state.loading = true;
-  // Update the view
-  repoView.update(state);
-
   (async () => {
+    state.error = null;
+    state.loading = true;
+    repoView.update(state);
+
     try {
       const { repo, contributors } = await fetchRepo(owner, repoName);
       state.repo = repo;
       state.contributors = contributors;
     } catch (err) {
-      if (DEBUG) {
-        console.error(err.message);
-      }
+      if (DEBUG) console.error(err.message);
+
       navigateTo('error');
+      return;
+    } finally {
+      state.loading = false;
     }
 
-    state.loading = false;
     repoView.update(state);
   })();
 

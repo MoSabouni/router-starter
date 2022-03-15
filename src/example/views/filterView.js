@@ -8,7 +8,12 @@ function createFilterView(props) {
 
   const filterInput = root.querySelector('.filter-input');
   filterInput.addEventListener('input', props.onFilterInput);
-  return { root };
+
+  const update = (state) => {
+    filterInput.value = state.filter || '';
+  };
+
+  return { root, update };
 }
 
 export default createFilterView;
