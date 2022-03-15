@@ -1,5 +1,6 @@
-import fetchRepos from '../fetchers/reposFetcher.js';
+import { DEBUG } from '../../constants.js';
 import { navigateTo } from '../../lib/hashRouter.js';
+import fetchRepos from '../fetchers/reposFetcher.js';
 import createReposView from '../views/reposView.js';
 
 function createReposPage(state) {
@@ -8,20 +9,24 @@ function createReposPage(state) {
     onItemClick: (repo) => navigateTo('repo', repo.owner.login, repo.name),
   });
 
+  // Clear any previous error
   state.error = null;
+  // Indicate we are about to load (should show spinner)
   state.loading = true;
+  // Update the view
   reposView.update(state);
 
   (async () => {
     try {
       state.repos = await fetchRepos();
+      state.loading = false;
+      reposView.update(state);
     } catch (err) {
-      console.error(err.message);
-      state.error = err;
+      if (DEBUG) {
+        console.error(err.message);
+      }
+      navigateTo('error');
     }
-
-    state.loading = false;
-    reposView.update(state);
   })();
 
   return reposView;

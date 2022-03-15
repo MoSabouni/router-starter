@@ -1,5 +1,6 @@
-import fetchRepo from '../fetchers/repoFetcher.js';
+import { DEBUG } from '../../constants.js';
 import { navigateTo } from '../../lib/hashRouter.js';
+import fetchRepo from '../fetchers/repoFetcher.js';
 import createRepoDetailView from '../views/repoDetailView.js';
 
 function createRepoDetailPage(state, [owner, repoName]) {
@@ -7,7 +8,9 @@ function createRepoDetailPage(state, [owner, repoName]) {
 
   // Clear any previous error
   state.error = null;
+  // Indicate we are about to load (should show spinner)
   state.loading = true;
+  // Update the view
   repoView.update(state);
 
   (async () => {
@@ -16,8 +19,10 @@ function createRepoDetailPage(state, [owner, repoName]) {
       state.repo = repo;
       state.contributors = contributors;
     } catch (err) {
-      console.error(err.message);
-      state.error = err;
+      if (DEBUG) {
+        console.error(err.message);
+      }
+      navigateTo('error');
     }
 
     state.loading = false;

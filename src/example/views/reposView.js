@@ -25,17 +25,12 @@ function createReposView(props) {
 
     if (state.loading) {
       loadingIndicator.root.hidden = false;
-    } else {
-      loadingIndicator.root.hidden = true;
-    }
-
-    if (state.error) {
-      // TODO: render error to the DOM
-      console.log(state.error.message);
       return;
     }
 
-    if (state.loading) {
+    loadingIndicator.root.hidden = true;
+
+    if (state.error) {
       return;
     }
 

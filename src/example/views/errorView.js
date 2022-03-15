@@ -1,9 +1,9 @@
 function createErrorView(props) {
   const root = document.createElement('div');
-  root.className = 'dialog-container';
+  root.className = 'dialog-container whiteframe';
 
   root.innerHTML = String.raw`
-    <div class="alert alert-error">
+    <div>
       ${props.error?.message ?? 'Oops... something went wrong.'}
     </div>
     <button type="button">Home</button>
