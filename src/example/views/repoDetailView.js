@@ -26,18 +26,13 @@ function createRepoDetailView(props) {
 
     if (state.loading) {
       loadingIndicator.root.hidden = false;
-    } else {
-      loadingIndicator.root.hidden = true;
+      return;
     }
+
+    loadingIndicator.root.hidden = true;
 
     if (state.error) {
-      // TODO: render error to the DOM
-      console.log(state.error.message);
-      return;
-    }
-
-    if (state.loading) {
-      return;
+      throw new Error('Unexpected call to `update()`');
     }
 
     const { repo, contributors } = state;

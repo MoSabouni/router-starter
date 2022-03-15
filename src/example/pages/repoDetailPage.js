@@ -4,7 +4,8 @@ import fetchRepo from '../fetchers/repoFetcher.js';
 import createRepoDetailView from '../views/repoDetailView.js';
 
 function createRepoDetailPage(state, [owner, repoName]) {
-  const repoView = createRepoDetailView({ onBack: () => navigateTo('repos') });
+  const props = { onBack: () => navigateTo('repos') };
+  const repoView = createRepoDetailView(props);
 
   (async () => {
     state.error = null;

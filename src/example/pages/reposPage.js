@@ -4,7 +4,7 @@ import fetchRepos from '../fetchers/reposFetcher.js';
 import createReposView from '../views/reposView.js';
 
 function createReposPage(state) {
-  const reposView = createReposView({
+  const props = {
     onHomeClick: () => navigateTo('home'),
     onItemClick: (repo) => navigateTo('repo', repo.owner.login, repo.name),
     onFilterInput: (e) => {
@@ -15,7 +15,8 @@ function createReposPage(state) {
       state.filter = '';
       reposView.update(state);
     },
-  });
+  };
+  const reposView = createReposView(props);
 
   (async () => {
     // No need to fetch again if we already have the data.

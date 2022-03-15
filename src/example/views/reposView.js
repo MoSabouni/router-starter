@@ -33,7 +33,7 @@ function createReposView(props) {
     loadingIndicator.root.hidden = true;
 
     if (state.error) {
-      return;
+      throw new Error('Unexpected call to `update()`');
     }
 
     // clear loading indicator

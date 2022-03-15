@@ -1,7 +1,6 @@
 function createErrorView(props) {
   const root = document.createElement('div');
   root.className = 'dialog-container whiteframe';
-
   root.innerHTML = String.raw`
     <div>
       ${props.error?.message ?? 'Oops... something went wrong.'}
