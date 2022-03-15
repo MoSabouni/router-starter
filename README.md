@@ -1,6 +1,6 @@
 # Router Starter Project Using Plain Vanilla JS
 
-This repo demonstrates an example of Single Page Application that uses a hash-based router, written in plain vanilla JavaScript. It also serve as a starter repo for building your own application using the same principles.
+This repo demonstrates an example of Single Page Application that uses a hash-based router, written in plain vanilla JavaScript. It also serves as a starter repo for building your own application using the same principles.
 
 ## Installing Dependencies
 
