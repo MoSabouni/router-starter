@@ -7,6 +7,10 @@ function createReposPage(state) {
   const reposView = createReposView({
     onHomeClick: () => navigateTo('home'),
     onItemClick: (repo) => navigateTo('repo', repo.owner.login, repo.name),
+    onFilterInput: (e) => {
+      state.filter = e.target.value;
+      reposView.update(state);
+    },
   });
 
   // Clear any previous error

@@ -3,6 +3,7 @@ import createReposHeaderContentView from './reposHeaderContentView.js';
 import createLoadingIndicator from './loadingIndicator.js';
 import createRepoListItemView from './repoListItemView.js';
 import { DEBUG } from '../../constants.js';
+import createFilterView from './filterView.js';
 
 function createReposView(props) {
   const root = document.createElement('div');
@@ -11,6 +12,9 @@ function createReposView(props) {
   const headerContent = createReposHeaderContentView(props);
   const headerView = createHeaderView({ content: headerContent.root });
   root.appendChild(headerView.root);
+
+  const filterView = createFilterView(props);
+  root.appendChild(filterView.root);
 
   const container = document.createElement('div');
   root.appendChild(container);
@@ -41,7 +45,15 @@ function createReposView(props) {
     repoList.className = 'no-bullets';
     container.appendChild(repoList);
 
-    state.repos.forEach((repo) => {
+    let { repos } = state;
+    if (state.filter) {
+      const filter = state.filter.toLowerCase();
+      repos = repos.filter((repo) =>
+        repo.name.toLowerCase().startsWith(filter)
+      );
+    }
+
+    repos.forEach((repo) => {
       const listItemView = createRepoListItemView({
         repo,
         onItemClick: props.onItemClick,
