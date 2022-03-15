@@ -5,7 +5,7 @@ function createRepoListItem({ repo, onItemClick }) {
   root.innerHTML = String.raw`
     <div>
       <h4>${repo.name}</h4>
-      <p>${repo.description}</p>
+      <p>${repo.description || 'No description available.'}</p>
     </div>
     <i class="fa-solid fa-chevron-right"></i>
   `;
