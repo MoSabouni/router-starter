@@ -149,13 +149,8 @@ The name of a View function should follow the naming convention **create**_XXX_*
 
 A View function typically first creates a DOM element that forms the root element of the View. Then it add child elements to that root by using its `.innerHTML` property.
 
-> Warning: You should not use `.innerHTML` for production applications. There are potential security issues with it's use. However, sine you are expected to soon switch to established libraries for building SPAs, e.g. React, this starter repo has decided to opt for the simplicity that `.innerHTML` for defining HTML structures.
->
+> Warning: You should not use `.innerHTML` for production applications. There are potential security issues with it's use. However, sine you are expected to soon switch to established libraries for building SPAs, e.g. React, this starter repo has decided to opt for the simplicity that `.innerHTML` for defining HTML structures.<br>
 > For more info on the security issues, see [Security considerations](https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML#security_considerations) on the MDN web site.
-
-> Tip: There is a handy VSCode extension that add syntax coloring to JavaScript string templates if they contain HTML code. It also adds [emmet](https://emmet.io/) support. Install this extension and then mark your string templates with `String.raw` to enable the magic.
->
-> Find it here: [Visual Studio Marketplace: lit-html](https://marketplace.visualstudio.com/items?itemName=bierner.lit-html)
 
 Here is an example:
 
@@ -183,6 +178,9 @@ function createAboutView(props) {
 
 export default createAboutView;
 ```
+
+> Tip: There is a handy VSCode extension that add syntax coloring to JavaScript string templates if they contain HTML code. It also adds [emmet](https://emmet.io/) support. Install this extension and then mark your HTML string templates with `String.raw` to enable the magic.<br>
+> Find it here: [Visual Studio Marketplace: lit-html](https://marketplace.visualstudio.com/items?itemName=bierner.lit-html)
 
 A View function should return an object that should include a property for its root element.
 
