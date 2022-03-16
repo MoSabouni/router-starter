@@ -8,6 +8,9 @@ function createHomeView(props) {
       This example uses the GitHub API to lists repositories from the 
       HackYourFuture organization.
     </p>
+    <p>Open the developer console to view debug log messages produced by
+      app.
+    </p>
     <div class="button-container">
       <button type="button" id="start-btn">Start</button>
       <button type="button" id="about-btn">About</button>

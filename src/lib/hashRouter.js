@@ -75,8 +75,26 @@ function createRouter(routes, routerOutlet, state = {}) {
     routerOutlet.appendChild(root);
   }); // end of event handler
 
-  // Kickstart the router at creation time.
-  window.dispatchEvent(new Event('hashchange'));
+  const initialState = { ...state };
+
+  log.info('router created', 'initial state:', initialState);
+
+  if (log.isMinLevel('debug')) {
+    // Log the routes table to the console
+    console.log('Routes Table:');
+    const displayRoutes = routes.map((route) => ({
+      ...route,
+      page: route.page.name,
+    }));
+    console.table(displayRoutes);
+  }
+
+  return {
+    start() {
+      // Kickstart the router
+      window.dispatchEvent(new Event('hashchange'));
+    },
+  };
 }
 
 export default createRouter;

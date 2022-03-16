@@ -85,7 +85,7 @@ log.XXX(label: any, ...args: any) => void
 | `label` | A string that identifies the originator of the log message. |
 | `...args` | Zero or more arguments that the logger directly passes on to `console.log()`. |
 
-You can use the following actual log methods:
+You can use the following actual log methods (in order of increasing severity):
 
 <!-- prettier-ignore -->
 | Method | Description |
@@ -96,8 +96,9 @@ You can use the following actual log methods:
 | `log.warning()` | For logging application warnings. |
 | `log.error()` | For logging application errors. |
 | `log.fatal()` |For logging fatal errors that prevent your app from continuing normally. |
+| `log.setLevel(minLevel)` | Sets the minimum level for the logger. The `minLevel` value must be one of `silly`, `debug`, `info`, `warning`, `error`, `fatal` or `none` (default). |
 
-You can use this family of log functions to log information to the developer console depending on a preset log level (defined in `src/constants.js`). To turn off logging altogether, set the `LOG_LEVEL` constant to `'none'`.
+You can use this family of log methods to log information to the developer console. Log messages with level below the `minLevel` will not show up.
 
 ## Advanced Application Architecture
 
@@ -456,6 +457,10 @@ const createRouter = (routes, routerOutlet, state = {}) => {
 > Tip: You can follow what happens in the application when you navigate through the app by opening the developer console and examining the debug messages. (_Always open the developer console when you are developing!_)
 >
 > If you are no longer interested in these messages (e.g. when deploying your app) change the minimum log level in `./src/constants.js` to `'fatal'`.
+>
+> You may need to change the default level of the browser console to **Verbose** to see all messages:
+>
+> ![logging](./readme-assets/logging.png)
 
 ## Using this starter for your own project
 

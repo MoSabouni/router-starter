@@ -1,24 +1,58 @@
-import { LOG_LEVEL } from '../constants.js';
-
 // Log levels in increasing severity
 const LEVELS = ['silly', 'debug', 'info', 'warning', 'error', 'fatal', 'none'];
 
 /**
- * Create a logger object
- * @param {string} minLevel The minimum log level that will produce output//
+ * Create a logger object.
  * @returns
  */
-function logger(minLevel) {
+function logger() {
+  let minLevel = LEVELS.length - 1;
+
+  // Check the requested level against the minimum level
+  const isMinLevel = (level) => LEVELS.indexOf(level) >= minLevel;
+
   // The function that does the actual logging.
   const log = (level, label, ...args) => {
-    if (LEVELS.indexOf(level) >= LEVELS.indexOf(minLevel)) {
-      console.log(`${level}: ${label} =>`, ...args);
+    if (!isMinLevel(level)) {
+      return;
     }
+
+    let logFn;
+
+    switch (level) {
+      case 'silly':
+      case 'debug':
+        logFn = console.debug;
+        break;
+      case 'warn':
+        logFn = console.warn;
+        break;
+      case 'info':
+        logFn = console.info;
+        break;
+      case 'error':
+        logFn = console.error;
+        break;
+      default:
+        logFn = console.log;
+    }
+
+    logFn(`${level}: ${label} =>`, ...args);
   };
 
   // Return an object with convenience functions for logging at specific
   // log levels.
   return {
+    setLevel(level) {
+      const newLevel = LEVELS.indexOf(level);
+      if (newLevel !== -1) {
+        minLevel = newLevel;
+      }
+    },
+    getLevel() {
+      return LEVELS[minLevel];
+    },
+    isMinLevel,
     log,
     silly(label, ...args) {
       log('silly', label, ...args);
@@ -41,4 +75,4 @@ function logger(minLevel) {
   };
 }
 
-export default logger(LOG_LEVEL);
+export default logger();
