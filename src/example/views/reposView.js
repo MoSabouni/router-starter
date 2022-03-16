@@ -1,20 +1,27 @@
-import createHeaderView from './headerView.js';
-import createReposHeaderContentView from './reposHeaderContentView.js';
+import log from '../../lib/logger.js';
 import createLoadingIndicator from './loadingIndicator.js';
 import createRepoListItemView from './repoListItemView.js';
-import { DEBUG } from '../../constants.js';
-import createFilterView from './filterView.js';
+import createToolbarView from './toolbarView.js';
 
 function createReposView(props) {
   const root = document.createElement('div');
   root.className = 'repos-container';
+  root.innerHTML = String.raw`
+    <header class="header">
+      <div class="header-content">
+        <button type="button" id="btn-home">
+          <i class="fa-solid fa-house"></i>
+        </button>
+        <div>HYF Repositories</div>
+      </div>
+    </header>
+  `;
 
-  const headerContent = createReposHeaderContentView(props);
-  const headerView = createHeaderView({ content: headerContent.root });
-  root.appendChild(headerView.root);
+  const btnHome = root.querySelector('#btn-home');
+  btnHome.addEventListener('click', props.onHomeClick);
 
-  const filterView = createFilterView(props);
-  root.appendChild(filterView.root);
+  const toolbarView = createToolbarView(props);
+  root.appendChild(toolbarView.root);
 
   const container = document.createElement('div');
   root.appendChild(container);
@@ -23,7 +30,9 @@ function createReposView(props) {
   container.appendChild(loadingIndicator.root);
 
   const update = (state) => {
-    if (DEBUG) console.log('repos', state);
+    log.debug('reposView', 'update:', state);
+
+    toolbarView.update(state);
 
     if (state.loading) {
       loadingIndicator.root.hidden = false;
@@ -57,8 +66,6 @@ function createReposView(props) {
       });
       repoList.appendChild(listItemView.root);
     });
-
-    filterView.update(state);
   };
 
   return { root, update };

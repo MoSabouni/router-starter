@@ -1,5 +1,5 @@
 //@ts-check
-import { DEBUG } from '../constants.js';
+import log from './logger.js';
 
 /**
  * This file is provided ready-made for use in your application by HackYourFuture.
@@ -17,10 +17,10 @@ async function fetchData(url, options = {}) {
   if (options.cache) {
     data = cache.get(url);
     if (data) {
-      if (DEBUG) console.log(`cache hit: ${url}`);
+      log.debug('fetchData', 'cache hit:', url);
       return data;
     }
-    if (DEBUG) console.warn(`cache miss: ${url}`);
+    log.debug('fetchData', 'cache miss:', url);
   }
 
   const res = await fetch(url);

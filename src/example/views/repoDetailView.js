@@ -1,18 +1,22 @@
-import createLoadingIndicator from './loadingIndicator.js';
-import createHeaderView from './headerView.js';
+import log from '../../lib/logger.js';
 import createContributorListView from './contributorListView.js';
-import { DEBUG } from '../../constants.js';
+import createLoadingIndicator from './loadingIndicator.js';
 
 function createRepoDetailView(props) {
   const root = document.createElement('div');
+  root.innerHTML = String.raw`
+  <header class="header">
+    <div class="header-content">
+      <button type="button" id="btn-back">
+      <i class="fa-solid fa-chevron-left"></i>
+      </button>
+      <div>Repository Details</div>
+    </div>
+  </header>
+  `;
 
-  const backBtn = document.createElement('button');
-  backBtn.type = 'button';
-  backBtn.textContent = 'Back to repositories';
-  backBtn.addEventListener('click', props.onBack);
-
-  const headerView = createHeaderView({ content: backBtn });
-  root.appendChild(headerView.root);
+  const btnBack = root.querySelector('#btn-back');
+  btnBack.addEventListener('click', props.onBack);
 
   const container = document.createElement('div');
   container.className = 'repo-detail-container';
@@ -22,7 +26,7 @@ function createRepoDetailView(props) {
   container.appendChild(loadingIndicator.root);
 
   const update = (state) => {
-    if (DEBUG) console.log('repo detail state', state);
+    log.debug('repoDetailView', 'update:', state);
 
     if (state.loading) {
       loadingIndicator.root.hidden = false;

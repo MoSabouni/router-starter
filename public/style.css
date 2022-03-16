@@ -7,6 +7,12 @@ body {
   overflow-y: scroll;
 }
 
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 .repos-container {
   display: flex;
   flex-direction: column;
@@ -21,6 +27,27 @@ body {
   margin: 0 4px;
 }
 
+.toolbar-view {
+  display: flex;
+  margin-top: 4px;
+  padding: 8px 4px;
+  border: solid 1px gray;
+  background-color: plum;
+}
+
+.toolbar-view input,
+select {
+  margin: 0 2px 0 8px;
+}
+
+.toolbar-view button {
+  margin-right: 16px;
+}
+
+.toolbar-view-flex {
+  flex-direction: column;
+}
+
 @media (min-width: 960px) {
   body {
     width: 720px;
@@ -29,6 +56,10 @@ body {
     flex-direction: row;
     align-items: flex-start;
     margin: 0;
+  }
+
+  .toolbar-view-flex {
+    flex-direction: row;
   }
 }
 
@@ -188,18 +219,6 @@ th {
   transform: translate(-50%, -50%);
 }
 
-.filter-view {
-  display: flex;
-  flex-direction: row;
-  margin-top: 4px;
-  padding: 8px;
-  border: solid 1px black;
-  background-color: plum;
-}
-
-.filter-view input {
-  margin: 0 4px 0 8px;
-}
 /*
 From: https://code-boxx.com/rotate-spin-image-html-css/#sec-animate 
 */

@@ -1,3 +1,4 @@
+//@ts-check
 import createAboutPage from './aboutPage.js';
 import createErrorPage from './errorPage.js';
 import createHomePage from './homePage.js';

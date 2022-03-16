@@ -51,7 +51,11 @@ index.html
 
 > _Note: Throughout this README we will use the TypeScript syntax for presenting function definitions. This syntax is the same as you will see in VSCode Intellisense when you hover the mouse pointer over a function header._
 
-#### Utility function `fetchData()`
+## Utility Functions
+
+Two ready-made utility functions that you can use in your application are provided in the `src/lib` folder. A third utility function (`createRouter()`) is discussed further down in this README.
+
+### `fetchData()`
 
 ```ts
 // src/lib/fetchData.js
@@ -67,6 +71,33 @@ Fetches JSON data from the Web API specified by the `url` parameter, optionally 
 | `options` | Optional. If provided it should be an optional object that specifies that the responses should be cached: `{ cache: true }`. |
 
 If caching is enabled, subsequent requests to the same `url` are served from the cache. This is particularly useful when using Web APIs that use request rate limiting.
+
+### `log.XXX()`
+
+```ts
+// src/lib/logger.js
+log.XXX(label: any, ...args: any) => void
+```
+
+<!-- prettier-ignore -->
+| Parameter | Description |
+|-----------|-------------|
+| `label` | A string that identifies the originator of the log message. |
+| `...args` | Zero or more arguments that the logger directly passes on to `console.log()`. |
+
+You can use the following actual log methods:
+
+<!-- prettier-ignore -->
+| Method | Description |
+|--------|-------------|
+| `log.silly()` | The lowest level. For messages that you only want to show up when drilling down deep in to your code. |
+| `log.debug()` | For logging debug type messages. |
+| `log.info()` | For logging informational messages. |
+| `log.warning()` | For logging application warnings. |
+| `log.error()` | For logging application errors. |
+| `log.fatal()` |For logging fatal errors that prevent your app from continuing normally. |
+
+You can use this family of log functions to log information to the developer console depending on a preset log level (defined in `src/constants.js`). To turn off logging altogether, set the `LOG_LEVEL` constant to `'none'`.
 
 ## Advanced Application Architecture
 
@@ -197,19 +228,28 @@ Inside the View function You can access child elements from the `root` element b
 
 Note that access to DOM elements is restricted to the View functions where they are created. This helps to ensure Separation of Concerns, a key principle in software design.
 
+A View function may call other View functions and incorporate their root elements as child elements of its own DOM subtree.
+
+> What you should **not** do is access DOM element (e.g. by using `document.getElementById()` or `document.querySelector()`) outside of the View function where the DOM elements are created. This would be a violation of the architectural principles outlined here and because of it breaking the rules, introduce a potential maintenance issue. If you find yourself needing to violate this rule you probably need to rethink the way you have organized your views.
+
 #### The `update()` callback
 
 A View function can return an optional `update()` callback function for updating the view when there are relevant changes in the state. Here is an example:
 
 ```js
-// file: src/examples/views/filterView.js
-function createFilterView(props) {
+// file: src/examples/views/toolbarView.js
+function createToolbarView(props) {
   const root = document.createElement('div');
-  root.className = 'filter-view';
+  root.className = 'toolbar-view';
   root.innerHTML = String.raw`
     <div>Filter:</div>
     <input type="text" class="filter-input"/>
     <button type="button" id="btn-clear" disabled>Clear</button>
+    <div>GitHub:</div>
+    <select id="select-org">
+      <option value="HackYourFuture">HackYourFuture</option>
+      <option value="HackYourHomework">HackYourHomework</option>
+    </select>
   `;
 
   const filterInput = root.querySelector('.filter-input');
@@ -218,45 +258,25 @@ function createFilterView(props) {
   const btnClear = root.querySelector('#btn-clear');
   btnClear.addEventListener('click', props.onClearFilter);
 
+  const selectOrg = root.querySelector('#select-org');
+  selectOrg.addEventListener('change', props.onOrganizationChange);
+
   const update = (state) => {
+    log.debug('toolbarView', 'update:', state);
     filterInput.value = state.filter || '';
+    selectOrg.value = state.organization;
     btnClear.disabled = !state.filter;
   };
 
   return { root, update };
 }
-
-export default createFilterView;
 ```
 
-The UI rendered by this View functionlooks roughly like this:
+The UI rendered by this View function looks like this:
 
-```text
- ┌─────────┬───────────────┐┌───────┐
- │ Filter: │               ││ Clear │
- └─────────┴───────────────┘└───────┘
-```
+![toolbar](./readme-assets/toolbar.png)
 
-The `update()` function is used here to update the value of input field and to disable this **Clear** button if the filter field is empty.
-
-This View function is effectively called like this:
-
-```js
-// see files src/examples/pages/reposPage.js
-// and src/examples/views/reposView.js
-const props = {
-  onFilterInput: (e) => {
-    state.filter = e.target.value.trim().toLowerCase();
-    reposView.update(state);
-  },
-  onClearFilter: () => {
-    state.filter = '';
-    reposView.update(state);
-  },
-};
-//...
-const reposView = createReposView(props);
-```
+The `update()` function is used here to update the values of organization `<select>` element and the `<input>` element and to disable the **Clear** `<button>` if the filter field is empty.
 
 The `input` element is completely controlled through code (in React this is called a _controlled component_). For instance, the `onFilterInput()` event handler ignore any leading and/or trailing spaces and convert any uppercase letters to lowercase. Then, the `input` element's value attribute is updated accordingly.
 
@@ -265,45 +285,43 @@ The `input` element is completely controlled through code (in React this is call
 Here is an example of recommended practice for fetching data from a Web API inside a Page function.
 
 ```js
-// file: src/examples/pages/repoDetailPage.js
-function createRepoDetailPage(state, [owner, repoName]) {
+// file: src/examples/pages/reposPage.js
+function createReposPage(state) {
   const props = {
-    /* ... */
+    // ...
   };
-  const repoView = createRepoDetailView(props);
+  const reposView = createReposView(props);
 
-  (async () => {
+  const getData = async () => {
     state.error = null;
     state.loading = true;
-    repoView.update(state);
+    reposView.update(state);
 
     try {
-      const { repo, contributors } = await fetchRepo(owner, repoName);
-      state.repo = repo;
-      state.contributors = contributors;
+      state.repos = await fetchRepos(state.organization);
     } catch (err) {
+      log.error('createReposPage', err.message);
       navigateTo('error');
       return;
     } finally {
       state.loading = false;
     }
+    reposView.update(state);
+  };
 
-    repoView.update(state);
-  })();
+  getData();
 
-  return repoView;
+  return reposView;
 }
-
-export default createRepoDetailPage;
 ```
 
-Page functions are _not_ called asynchronously by the router. However, data fetches _must_ be done asynchronously. There the recommended practice is to use an async IIFE to fetch the data.
+Page functions are _not_ called asynchronously by the router. However, data fetches _must_ be done asynchronously. There the recommended practice is to either use use an async IIFE or an internal async function as is used here to fetch the data.
 
-Before calling the async function that fetches the data we set the `.loading` property to `true` and the `.error` property to `null` (no error). We then call `.update()` on the View function, which in its turn will typically show a spinner to indicate that we are loading data.
+Before calling the async function that actually fetches the data we set the `.loading` property to `true` and the `.error` property to `null` (no error). We then call `.update()` on the View function, which will in its turn typically show a spinner to signal to the user that data is being loaded.
 
 If the data is successfully fetched we want to hide the spinner and render the fetched data. Therefore we set `.loading` to false and call `.update()` on the View again to let the View hide the spinner and render the data now available in the `state` object.
 
-If an error was encountered we handle it, in this case by navigating to an error page and returning from this Page function.
+If an error was encountered we handle it, in this case by navigating to an error page and returning early from the Page function.
 
 In the corresponding View function the `update()` callback function typically handles the loading and render phases as follows:
 
@@ -348,7 +366,7 @@ Example of a hash with a page name and two parameters.
 This hash identifies a page named `repo` and two string parameters to be passed to the Page function: `"HackYourFuture"` and `"UsingAPIs"`. The router will call the corresponding Page function effectively like this:
 
 ```js
-createRepoDetailPage(state, ['HackYourFuture', 'UsingAPIs']);
+createRepoDetailPage(state, 'HackYourFuture', 'UsingAPIs');
 ```
 
 ## Pros and cons of a hash-based router
@@ -392,7 +410,7 @@ navigateTo(pageName: string, ...args: any) => void
 | `pageName` | The name of the page to load. |
 | `...args`  | Zero or more arguments to be passed to the target Page function. |
 
-The `navigateTO()` function encodes the page name and optional arguments into a string and assigns it to the browser's location hash. This will trigger hash change event that the router will pick up.
+The `navigateTo()` function encodes the page name and optional arguments into a string and assigns it to the browser's location hash. This will trigger hash change event that the router will pick up.
 
 Here is an examples `routes` array of route objects as used in this starter project:
 
@@ -434,6 +452,10 @@ const createRouter = (routes, routerOutlet, state = {}) => {
   //...
 };
 ```
+
+> Tip: You can follow what happens in the application when you navigate through the app by opening the developer console and examining the debug messages. (_Always open the developer console when you are developing!_)
+>
+> If you are no longer interested in these messages (e.g. when deploying your app) change the minimum log level in `./src/constants.js` to `'fatal'`.
 
 ## Using this starter for your own project
 

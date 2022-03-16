@@ -1,13 +1,13 @@
-import { DEBUG } from '../../constants.js';
 import { navigateTo } from '../../lib/hashRouter.js';
+import log from '../../lib/logger.js';
 import fetchRepo from '../fetchers/repoFetcher.js';
 import createRepoDetailView from '../views/repoDetailView.js';
 
-function createRepoDetailPage(state, [owner, repoName]) {
+function createRepoDetailPage(state, owner, repoName) {
   const props = { onBack: () => navigateTo('repos') };
   const repoView = createRepoDetailView(props);
 
-  (async () => {
+  const getData = async () => {
     state.error = null;
     state.loading = true;
     repoView.update(state);
@@ -17,8 +17,7 @@ function createRepoDetailPage(state, [owner, repoName]) {
       state.repo = repo;
       state.contributors = contributors;
     } catch (err) {
-      if (DEBUG) console.error(err.message);
-
+      log.error('createRepoDetailPage', err.message);
       navigateTo('error');
       return;
     } finally {
@@ -26,7 +25,9 @@ function createRepoDetailPage(state, [owner, repoName]) {
     }
 
     repoView.update(state);
-  })();
+  };
+
+  getData();
 
   return repoView;
 }
