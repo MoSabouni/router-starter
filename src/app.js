@@ -1,9 +1,9 @@
-import { USE_EXAMPLE, LOG_LEVEL } from './constants.js';
+import { LOG_LEVEL, USE_EXAMPLE } from './constants.js';
+import data from './data.js';
 import exampleRoutes from './example/pages/routes.js';
 import createRouter from './lib/hashRouter.js';
-import appRoutes from './pages/routes.js';
-import data from './data.js';
 import log from './lib/logger.js';
+import appRoutes from './pages/routes.js';
 
 function loadApp() {
   // Set the desired log level

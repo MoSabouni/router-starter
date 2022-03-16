@@ -91,7 +91,8 @@ function createRouter(routes, routerOutlet, state = {}) {
 
   return {
     start() {
-      // Kickstart the router
+      // Start the router
+      log.debug('router', 'started');
       window.dispatchEvent(new Event('hashchange'));
     },
   };

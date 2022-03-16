@@ -29,9 +29,7 @@ function createReposView(props) {
   const loadingIndicator = createLoadingIndicator();
   container.appendChild(loadingIndicator.root);
 
-  const update = (state) => {
-    log.debug('reposView', 'update:', state);
-
+  const render = (state) => {
     toolbarView.update(state);
 
     if (state.loading) {
@@ -66,6 +64,11 @@ function createReposView(props) {
       });
       repoList.appendChild(listItemView.root);
     });
+  };
+
+  const update = (state) => {
+    log.debug('reposView', 'update:', state);
+    render(state);
   };
 
   return { root, update };

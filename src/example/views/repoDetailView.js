@@ -25,9 +25,7 @@ function createRepoDetailView(props) {
   const loadingIndicator = createLoadingIndicator();
   container.appendChild(loadingIndicator.root);
 
-  const update = (state) => {
-    log.debug('repoDetailView', 'update:', state);
-
+  const render = (state) => {
     if (state.loading) {
       loadingIndicator.root.hidden = false;
       return;
@@ -39,7 +37,7 @@ function createRepoDetailView(props) {
       throw new Error('Unexpected call to `update()`');
     }
 
-    const { repo, contributors } = state;
+    const { repo } = state;
 
     container.innerHTML = String.raw`
       <section class="repo-container whiteframe">
@@ -69,8 +67,15 @@ function createRepoDetailView(props) {
       </section>
     `;
 
-    const contributorsView = createContributorListView({ contributors });
+    const contributorsView = createContributorListView({
+      contributors: state.contributors,
+    });
     container.appendChild(contributorsView.root);
+  };
+
+  const update = (state) => {
+    log.debug('repoDetailView', 'update:', state);
+    render(state);
   };
 
   return { root, update };
