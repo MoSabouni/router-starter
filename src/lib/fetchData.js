@@ -1,5 +1,7 @@
 //@ts-check
-import {log} from './logger.js';
+import log from './logger.js';
+
+const HTTP_STATUS_NO_CONTENT = 204;
 
 /**
  * This file is provided ready-made for use in your application by HackYourFuture.
@@ -17,10 +19,10 @@ async function fetchData(url, options = {}) {
   if (options.cache) {
     data = cache.get(url);
     if (data) {
-      log.debug('fetchData', 'cache hit:', url);
+      log.silly('fetchData', 'cache hit:', url);
       return data;
     }
-    log.debug('fetchData', 'cache miss:', url);
+    log.silly('fetchData', 'cache miss:', url);
   }
 
   const res = await fetch(url);
@@ -28,7 +30,11 @@ async function fetchData(url, options = {}) {
     throw new Error(`HTTP ${res.status}  ${res.statusText}`);
   }
 
-  data = await res.json();
+  if (res.status === HTTP_STATUS_NO_CONTENT) {
+    data = null;
+  } else {
+    data = await res.json();
+  }
 
   if (options.cache) {
     cache.set(url, data);

@@ -1,12 +1,13 @@
-import { navigateTo } from '../../lib/hashRouter.js';
+import router from '../../lib/router.js';
 import createErrorView from '../views/errorView.js';
 
-function createErrorPage(state) {
+function createErrorPage() {
+  const { error } = router.getState();
   const props = {
-    error: state.error,
+    error,
     onClick: () => {
-      state.error = null;
-      navigateTo('home');
+      router.updateState({ error: null });
+      router.navigateTo('home');
     },
   };
   return createErrorView(props);

@@ -1,5 +1,3 @@
-import { log } from '../../lib/logger.js';
-
 function createToolbarView(props) {
   const root = document.createElement('div');
   root.className = 'toolbar-view toolbar-view-flex';
@@ -26,7 +24,6 @@ function createToolbarView(props) {
   selectOrg.addEventListener('change', props.onOrganizationChange);
 
   const update = (state) => {
-    log.debug('toolbarView', 'update:', state);
     filterInput.value = state.filter || '';
     selectOrg.value = state.organization;
     btnClear.disabled = !state.filter;

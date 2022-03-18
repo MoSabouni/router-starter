@@ -1,8 +1,8 @@
-import { navigateTo } from '../../lib/hashRouter.js';
+import router from '../../lib/router.js';
 import createAboutView from '../views/aboutView.js';
 
 function createAboutPage() {
-  const props = { onClick: () => navigateTo('home') };
+  const props = { onClick: () => router.navigateTo('home') };
   return createAboutView(props);
 }
 

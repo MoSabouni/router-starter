@@ -75,4 +75,5 @@ function logger() {
   };
 }
 
-export const log = logger();
+const log = logger();
+export default log;

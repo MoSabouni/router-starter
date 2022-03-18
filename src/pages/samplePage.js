@@ -1,6 +1,6 @@
 import createSampleView from '../views/sampleView.js';
 
-function createSamplePage(state) {
+function createSamplePage() {
   const props = {
     // Add properties to be passed to the View function
   };

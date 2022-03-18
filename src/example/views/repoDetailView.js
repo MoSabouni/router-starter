@@ -1,4 +1,3 @@
-import { log } from '../../lib/logger.js';
 import createContributorListView from './contributorListView.js';
 import createLoadingIndicator from './loadingIndicator.js';
 
@@ -25,7 +24,7 @@ function createRepoDetailView(props) {
   const loadingIndicator = createLoadingIndicator();
   container.appendChild(loadingIndicator.root);
 
-  const render = (state) => {
+  const update = (state) => {
     if (state.loading) {
       loadingIndicator.root.hidden = false;
       return;
@@ -34,10 +33,10 @@ function createRepoDetailView(props) {
     loadingIndicator.root.hidden = true;
 
     if (state.error) {
-      throw new Error('Unexpected call to `update()`');
+      return;
     }
 
-    const { repo } = state;
+    const { repo, contributors } = state;
 
     container.innerHTML = String.raw`
       <section class="repo-container whiteframe">
@@ -67,15 +66,8 @@ function createRepoDetailView(props) {
       </section>
     `;
 
-    const contributorsView = createContributorListView({
-      contributors: state.contributors,
-    });
+    const contributorsView = createContributorListView({ contributors });
     container.appendChild(contributorsView.root);
-  };
-
-  const update = (state) => {
-    log.debug('repoDetailView', 'update:', state);
-    render(state);
   };
 
   return { root, update };

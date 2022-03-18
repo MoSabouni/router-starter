@@ -1,4 +1,3 @@
-import { log } from '../../lib/logger.js';
 import createLoadingIndicator from './loadingIndicator.js';
 import createRepoListItemView from './repoListItemView.js';
 import createToolbarView from './toolbarView.js';
@@ -53,7 +52,7 @@ function createReposView(props) {
     });
   };
 
-  const update = (state, prevState) => {
+  const update = (state) => {
     toolbarView.update(state);
 
     if (state.loading) {
@@ -64,13 +63,10 @@ function createReposView(props) {
     loadingIndicator.root.hidden = true;
 
     if (state.error) {
-      throw new Error('Unexpected call to `update()`');
+      return;
     }
 
-    log.debug('reposView', 'update:', state);
-    if (state.repos !== prevState.repos) {
-      render(state);
-    }
+    render(state);
   };
 
   return { root, update };
