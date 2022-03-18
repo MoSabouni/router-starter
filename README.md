@@ -1,6 +1,6 @@
-# Router Starter Project Using Plain Vanilla JS
+# Router Starter Project (vanilla JS)
 
-This repo demonstrates an example of Single Page Application that uses a hash-based router, written in plain vanilla JavaScript. It also serves as a starter repo for building your own application using the same principles.
+This repo is an example of Single Page Application that uses a hash-based router, all written in vanilla JavaScript (no libraries used). It can also serve as a starter project for building your own application based on the same principles.
 
 ## Installing Dependencies
 
@@ -31,31 +31,33 @@ src
 index.html
 ```
 
-> Note: Students at HackYourFuture may recognize this folder structure as similar to the recommended one for the group project in the Browsers module.
+> Note: Students at HackYourFuture may recognize this folder structure as similar to the recommended one for the Group Project in the Browsers module.
 
 <!-- prettier-ignore -->
 | Folder | Description |
 |--------|-------------|
 | `public` | This folder contains the static files that can be used by the `index.html` file. |
-| `src` | This contains all of the JavaScript code. |
+| `src` | This folder contains all of the JavaScript code. |
 | `src/example` | Contains a fully worked-out example app that displays information about the repositories of the HackYourFuture organization. If no longer needed, this folder and its contents can be deleted. |
 | `src/fetchers` | This folder contain functions that deal with fetching application data from specific urls for use by Page functions. |
-| `src/lib` | This folder provides two ready-made utility functions that you can use in your application. (See later.) |
-| `src/pages` | This folder contains functions that create pages to be loaded in the UI, for instance a Home page, an About page etc. These Page functions contain the logic to handle user interactions and for fetching data from Web APIs.<br>The creation and update of DOM elements are preferable  delegated a companion View function.<br>Page functions are called by the router when the page needs to be loaded into the DOM. |
-| `src/views` | This folder contains functions called upon by Page functions to create and update DOM elements for the page. To enable user interactions, Page functions can pass event handlers to View functions to be added as add event listeners to the View's DOM elements. |
+| `src/lib` | This folder provides some ready-made utility functions that you can use in your application. (See later.) |
+| `src/pages` | This folder contains functions that create pages to be loaded in the UI, for instance a Home page, an About page etc. Page functions return a subtree of DOM elements and contain logic to handle user interactions and, optionally, logic for fetching data from Web APIs.<br>The actual creation and update of DOM elements is preferable delegated a companion View function<sup>1</sup>.<br>A Page function is called by the router when a specific page needs to be loaded into the DOM. |
+| `src/views` | This folder contains functions called upon by Page functions to create and update DOM elements, and render application data for the page. To enable user interactions, Page functions can also pass event handlers to View functions to be added as add event listeners to the View's DOM elements. |
 | `app.js` |  This file contains the start-up code for the app. When using the router, this is where the router is created and attached to the DOM. |
 | `constants.js` | This file contains constants for use throughout your application. |
 | `data.js` | This file defines a constant holding the initial application state (if needed). |
 | `.secrets.js` | This file can be used to define constants for secret API keys, etc. It is listed in `.gitignore` and will therefore not be added to your repo, which is particularly important if you publish your repo on GitHub.
-| `index.html` | The one and only HTML file for the application. It includes a `div` element that serves as the root element for our application. It also loads the `app.js` file using a `script` tag with the `type` set to `module` so that you can use ES6 `import` and `export` keywords to load additional modules.
+| `index.html` | The one and only HTML file for the application. It includes a `<div>` element that serves as the root element for our application. It also loads the `app.js` file using a `<script>` tag with a `type="module"` attribute so that you can use ES6 `import` and `export` keywords to load additional modules.
 
-> _Note: Throughout this README we will use the TypeScript syntax for presenting function definitions. This syntax is the same as you will see in VSCode Intellisense when you hover the mouse pointer over a function header._
+<sup>1</sup>In support of the principle of _Separation of Concerns_.
 
 ## Utility Functions
 
-Two ready-made utility functions that you can use in your application are provided in the `src/lib` folder. A third utility function (`createRouter()`) is discussed further down in this README.
+> _Note: Throughout this README we will use the TypeScript syntax for presenting function definitions. This syntax is the same as you can see in VSCode Intellisense when you hover the mouse pointer over a function header._
 
-### `fetchData()`
+Two ready-made utility functions are provided in the `src/lib` folder that you can use in your own application.
+
+### Function: `fetchData()`
 
 ```ts
 // src/lib/fetchData.js
@@ -68,11 +70,11 @@ Fetches JSON data from the Web API specified by the `url` parameter, optionally 
 | Parameter | Description |
 |-----------|-------------|
 | `url` | The URL to fetch JSON data from. |
-| `options` | Optional. If provided it should be an optional object that specifies that the responses should be cached: `{ cache: true }`. |
+| `options` | Optional. If provided it should be an object with a boolean `cache` property that indicates whether the responses should be cached, e.g. `{ cache: true }`. |
 
 If caching is enabled, subsequent requests to the same `url` are served from the cache. This is particularly useful when using Web APIs that use request rate limiting.
 
-### `log.XXX()`
+### Function: `log.XXX()`
 
 ```ts
 // src/lib/logger.js
@@ -90,21 +92,23 @@ You can use the following actual log methods (in order of increasing severity):
 <!-- prettier-ignore -->
 | Method | Description |
 |--------|-------------|
-| `log.silly()` | The lowest level. For messages that you only want to show up when drilling down deep in to your code. |
+| `log.silly()` | The lowest level. For messages that you only want to show up when drilling deep down into your code. |
 | `log.debug()` | For logging debug type messages. |
 | `log.info()` | For logging informational messages. |
 | `log.warning()` | For logging application warnings. |
 | `log.error()` | For logging application errors. |
 | `log.fatal()` |For logging fatal errors that prevent your app from continuing normally. |
-| `log.setLevel(minLevel)` | Sets the minimum level for the logger. The `minLevel` value must be one of `silly`, `debug`, `info`, `warning`, `error`, `fatal` or `none` (default). |
+| `log.setLevel(minLevel)` | Sets the minimum level for the logger. The `minLevel` value must be one of `'silly'`, `'debug'`, `'info'`, `'warning'`, `'error'`, `'fatal'` or `'none'`. To suppress all log messages, use the value `'none'` (default). |
 
-You can use this family of log methods to log information to the developer console. Log messages with level below the `minLevel` will not show up.
+You can use this family of log methods to log information to the developer console. Log messages with a level below the `minLevel` will not show up.
+
+Note: The two other functions in `src/lib` are in support of the Advanced Application Architecture described below.
 
 ## Advanced Application Architecture
 
 **_You can use the provided folder structure to build an application as you see fit without using any of the recommendations for application design described in this and the next sections. These recommendations are entirely optional._**
 
-In the sections that follow we will outline architectural patterns and techniques that will help you to build a robust, maintainable Single Page Application using plain vanilla JavaScript, using concepts inspired by libraries/frameworks such as React and Angular.
+In the sections that follow we will outline architectural patterns and techniques that will help you to build a robust, maintainable Single Page Application using vanilla JavaScript, using concepts inspired by libraries/frameworks such as React and Angular.
 
 > **Application Architecture Definition**
 >
@@ -118,30 +122,31 @@ For this start repo we will outline patterns for standard Page and View function
 
 ### Page functions: `createXXXPage()`
 
-A Page function represents an application page. It is called by the router to create the page when the user navigates to it. Subsequently, the router loads the created page loads into DOM.
+A Page function represents an application page. It is called by the router to create the page when the user navigates to it. After the page is created, the router loads its DOM subtree into the DOM.
 
-A Page function is responsible for handling all user interactions for the page and for fetching any required data from Web APIs. Preferably, it should delegate the creation and update of DOM elements to a companion View function.
+A Page function is responsible for handling all user interactions for the page and for fetching any required data from Web APIs. It is not (should not be) responsibly for the creation and updating of the actual DOM elements. This should (preferably) be delegated to a companion View function.
 
 The function signature for a Page function is as follows:
 
 ```js
-createXXXPage(state: object, params?: string[]) => { root: HTMLElement }
+createXXXPage(...params: any) => { root: HTMLElement, update?: Function }
 ```
 
 <!-- prettier-ignore -->
 | Parameter | Description |
 |-----------|-------------|
-| `state`   | This object represents the global application state and is passed to the Page function by the router. |
-| `params` | This optional string array contains any parameters encoded in the browser's location url. |
+| `...params` | Any parameters encoded in the browser's location url will be passed to the Page function. |
+
+A Page function should return an object with, at minimum, a `root` property holding a reference to the root element of its DOM subtree, and optionally an `update` property holding a reference to callback function that is called whenever the application state is updated (see below). This requirement is met if the Page function simply returns the object returned by its View function.
 
 The name of a Page function should follow the naming convention **create**_XXX_**Page**, where _XXX_ is the name of the View. Example: `createAboutPage`.
 
-The standard pattern for a Page function is as follows:
+The standard pattern for a Page function is similar to:
 
 ```js
 import createSampleView from '../views/sampleView.js';
 
-function createSamplePage(state) {
+function createSamplePage() {
   const props = {
     // Add properties to be passed to the View function
   };
@@ -161,15 +166,13 @@ A Page function can pass event handlers to the View function through the `props`
 
 ```js
 // file: src/examples/pages/aboutPage.js
-import { navigateTo } from '../../lib/hashRouter.js';
+import router from '../../lib/hashRouter.js';
 import createAboutView from '../views/aboutView.js';
 
 function createAboutPage() {
-  const props = { onClick: () => navigateTo('home') };
+  const props = { onClick: () => router.navigateTo('home') };
   return createAboutView(props);
 }
-
-export default createAboutPage;
 ```
 
 ### View functions: `createXXXView()`
@@ -183,16 +186,16 @@ createXXXView(props?: object) => { root: HTMLElement, update?: Function }
 <!-- prettier-ignore -->
 | Parameter | Description |
 |-----------|-------------|
-| `props`   | On object with properties that hold values and/or event handlers function to be used for the View's DOM elements. |
+| `props`   | On object with properties that hold values and/or event handler functions to be used when creating the View's DOM elements. |
 
-View functions are used to create and update DOM elements in the service of corresponding Page functions. A View function can render application data and add any event handlers passed to it through the `props` parameter. It can respond to `state` updates by providing and returning an `update()` callback function through the return object.
+View functions are used to create and update DOM elements in the service of corresponding Page functions. A View function can render application data and add any event handlers passed to it through the `props` parameter. It can respond to `state` updates by providing and returning an `update()` callback function through its return object.
 
 The name of a View function should follow the naming convention **create**_XXX_**View**, where _XXX_ is the name of the View. Example: `createAboutView`.
 
-A View function typically first creates a DOM element that represents the root element of the View. Then it adds child elements to that root through its `.innerHTML` property.
+A View function typically first creates an initial DOM element that represents the `root` element of the View's DOM subtree. It can then add child elements to that root through its `.innerHTML` property.
 
-> Warning: You should not use `.innerHTML` for production applications. There are potential security issues associated with its use. However, since you are expected to soon switch to established libraries, such as React, for building SPAs anyway, this starter repo has opted for the simplicity and convenience that `.innerHTML` offers for defining HTML structures.<br>
-> For more info on the security issues, see [Security considerations](https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML#security_considerations) on the MDN web site.
+> Warning: You should not use `.innerHTML` for production applications. There are potential security issues associated with its use. However, since you are expected to later switch to established libraries, such as React (which uses HTML-like syntax called JSX), we have in this starter repo opted to take advantage of the simplicity and convenience that `.innerHTML` provides for defining HTML structures.<br>
+> For more info on the security issues associated with `.innerHTML`, see [Security considerations](https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML#security_considerations) on the MDN web site.
 
 Here is an example of a View function.
 
@@ -223,19 +226,21 @@ export default createAboutView;
 > Tip: There is a handy VSCode extension that adds syntax coloring to JavaScript string templates if they contain HTML code. It also adds [emmet](https://emmet.io/) support. Install this extension and then mark your HTML string templates with `String.raw` to enable the magic.<br>
 > Find it here: [Visual Studio Marketplace: lit-html](https://marketplace.visualstudio.com/items?itemName=bierner.lit-html)
 
-A View function should return an object that contains a property for its `root` element and optionally a property for its `update()` callback function.
+A View function should return an object that contains a property for its `root` element and, optionally, a property for its `update()` callback function.
 
-Inside the View function You can access child elements from the `root` element by calling `.querySelector()` on it, as is done in this example to add an event handler function passed a prop to the button.
+Inside the View function you can access child elements from its `root` element by calling `.querySelector()` on it, as is done in this example to add an event handler function passed as a prop to the button.
 
-Note that access to DOM elements is restricted to the View functions where they are created. This helps to ensure Separation of Concerns, a key principle in software design.
+Note that access to DOM elements should be restricted to the View functions where they are created. This helps to ensure Separation of Concerns, a key principle in software design.
 
 A View function may call other View functions and incorporate their root elements as child elements of its own DOM subtree.
 
-> What you should **not** do is access DOM element (e.g. by using `document.getElementById()` or `document.querySelector()`) outside of the View function where the DOM elements are created. This would be a violation of the architectural principles outlined here and because of it breaking the rules, introduce a potential maintenance issue. If you find yourself needing to violate this rule you probably need to rethink the way you have organized your views.
+> What you should **_not_** do is access DOM element (e.g. by using `document.getElementById()` or `document.querySelector()`) outside of the View function where the DOM elements are created. This would be a violation of the architectural principles outlined here and because of it breaking the rules, introduce a potential maintenance issue. If you find yourself needing to violate this rule you probably need to rethink the way you have organized your pages and views.
 
 #### The `update()` callback
 
-A View function can return an optional `update()` callback function for updating the view when there are relevant changes in the state. Here is an example:
+A View function can return an optional `update()` callback function for updating the view after changes have been made to the global app state. The global app state takes the form of a JavaScript object that is passed as argument to the `update()` callback.
+
+Here is an example:
 
 ```js
 // file: src/examples/views/toolbarView.js
@@ -263,7 +268,6 @@ function createToolbarView(props) {
   selectOrg.addEventListener('change', props.onOrganizationChange);
 
   const update = (state) => {
-    log.debug('toolbarView', 'update:', state);
     filterInput.value = state.filter || '';
     selectOrg.value = state.organization;
     btnClear.disabled = !state.filter;
@@ -291,23 +295,21 @@ function createReposPage(state) {
   const props = {
     // ...
   };
+
   const reposView = createReposView(props);
 
   const getData = async () => {
-    state.error = null;
-    state.loading = true;
-    reposView.update(state);
+    router.updateState({ error: null, loading: true, repos: null });
 
     try {
-      state.repos = await fetchRepos(state.organization);
-    } catch (err) {
-      log.error('createReposPage', err.message);
+      const repos = await fetchRepos(router.getState().organization);
+      router.updateState({ repos, loading: false });
+    } catch (error) {
+      log.error('createReposPage', error.message);
+      router.updateState({ error, loading: false });
       navigateTo('error');
       return;
-    } finally {
-      state.loading = false;
     }
-    reposView.update(state);
   };
 
   getData();
@@ -316,13 +318,15 @@ function createReposPage(state) {
 }
 ```
 
-Page functions are _not_ called asynchronously by the router. However, data fetches _must_ be done asynchronously. There the recommended practice is to either use use an async IIFE or an internal async function as is used here to fetch the data.
+Page functions are _not_ called asynchronously by the router. However, data fetches _must_ be done asynchronously. Therefore, the recommended practice is to either use use an async IIFE or an internal async function (as is used here) to fetch the data.
 
-Before calling the async function that actually fetches the data we set the `.loading` property to `true` and the `.error` property to `null` (no error). We then call `.update()` on the View function, which will in its turn typically show a spinner to signal to the user that data is being loaded.
+In this example, before calling the async function that actually fetches the data we update the global app state by calling the `router.updateState()` method, passing an object with relevant changes we want to make to the state.
 
-If the data is successfully fetched we want to hide the spinner and render the fetched data. Therefore we set `.loading` to false and call `.update()` on the View again to let the View hide the spinner and render the data now available in the `state` object.
+The `update()` callback from the View will be called by the router with the update state object. In this example the View will act on the changes by showing a spinner to signal to the user that data is being loaded.
 
-If an error was encountered we handle it, in this case by navigating to an error page and returning early from the Page function.
+If the data is successfully fetched we want to hide the spinner and render the fetched data. Therefore we set we update the state again so that the View can hide spinner and render the data now available in the state object.
+
+If an error was encountered we set the state accordingly and, in this case, continue by navigating to an error page and returning early from the Page function.
 
 In the corresponding View function the `update()` callback function typically handles the loading and render phases as follows:
 
@@ -330,18 +334,14 @@ In the corresponding View function the `update()` callback function typically ha
 // file: src/examples/views/repoDetailView.js
 const update = (state) => {
   if (state.loading) {
-    // Show the spinner
     loadingIndicator.root.hidden = false;
     return;
   }
 
-  // Hide the spinner
   loadingIndicator.root.hidden = true;
 
-  // Since we expect the Page function to redirect to another page in case of
-  // an error, let's throw an error if we are called just the same.
   if (state.error) {
-    throw new Error('Unexpected call to `update()`');
+    return;
   }
 
   const { repo, contributors } = state;
@@ -352,7 +352,7 @@ const update = (state) => {
 
 ## Router
 
-The purpose of a (client-side) router in a Single Page Application is to let the client programmatically load different application 'pages' into the DOM, by manipulating the browser's location url. In a hash-based router, the specific page to load is determined by the `hash` fragment of the url. In a url, a hash fragment is the part that starts with a `#` mark. Everything following the `#` mark is considered part of the hash.
+The purpose of a (client-side) router in a Single Page Application is to let the client programmatically load different application 'pages' into the DOM by manipulating the browser's location url. In a hash-based router, the specific page to load is determined by the `hash` fragment of the url. In a url, a hash fragment is the part that starts with a `#` mark. Everything following the `#` mark is considered part of the hash.
 
 We can use the hash to specify the name of the page to load and can optionally include parameters to pass to the Page function. It can be said that the url when used in such a way is part of the application state.
 
@@ -382,36 +382,31 @@ The downside of a hash-based router is that the url looks 'funny' because of the
 
 ### Implementation
 
-The router is created in `app.js` by calling the `createRouter()` utility function.
+The router is created in `src/lib/router.js` and is exported as an object with the following methods:
 
-```ts
-// src/lib/hashRouter.js
-createRouter(routes: Route[], routerOutlet: HTMLElement, state?: object) => void
+```js
+{
+  start: (routes: Route[], routerOutlet: HTMLElement, state?: object) => void,
+  navigateTo:  (pageName: string, ...params: string[]) => void;
+  updateState: (updates: object) => void;
+  getState: () => object;
+}
 ```
 
-This function creates a hash-based router. It takes the following arguments:
+#### Method: `router.start()`
+
+This method starts the router.
+
+```js
+router.start(routes: Route[], routerOutlet: HTMLElement, state?: object) => void
+```
 
 <!-- prettier-ignore -->
 | Parameter | Description |
 |-----------|-------------|
 | `routes` | An array of route definitions.|
 | `routerOutlet` | The DOM element into which pages should be loaded. |
-| `state` |  An optional JavaScript object that represent the global application state. If none is provided an empty object will be used instead. |
-
-To navigate to a specific page, we can use the `navigateTo()` function.
-
-```ts
-// src/lib/hashRouter.js
-navigateTo(pageName: string, ...args: any) => void
-```
-
-<!-- prettier-ignore -->
-| Parameter | Description |
-|-----------|-------------|
-| `pageName` | The name of the page to load. |
-| `...args`  | Zero or more arguments to be passed to the target Page function. |
-
-The `navigateTo()` function encodes the page name and optional arguments into a string and assigns it to the browser's location hash. This will trigger hash change event that the router will pick up.
+| `state` |  The initial application state. Optional. Defaults to an empty object. |
 
 Here is an examples `routes` array of route objects as used in this starter project:
 
@@ -435,11 +430,27 @@ A route object contains the following properties:
 | `page` | The Page that should be called to create that page. |
 | `default` | If `true`, this route will be used if there is no hash present in the browser's url or if the hash does not represent a known path. The router will use the first route it find marked as default. |
 
-The main code of the router is inside the function `createRouter()`. Below is a simplified part of the code that illustrates how the router works.
+#### Method: `router.navigateTo()`
+
+To navigate to a specific page, we can use the `navigateTo()` method.
+
+```ts
+router.navigateTo(path: string, ...args: any) => void
+```
+
+<!-- prettier-ignore -->
+| Parameter | Description |
+|-----------|-------------|
+| `path` | The path (i.e. name) of the page to load. |
+| `...args`  | Zero or more arguments to be passed to the target Page function. |
+
+The `navigateTo()` method encodes the path and optional arguments into a string and assigns it to the browser's location hash. This will trigger hash change event that the router will pick up.
+
+The main code of the router is inside the function `createRouter()`. Below is a (simplified) part of the code that illustrates how the router works.
 
 ```js
 // file: src/lib/router.js
-const createRouter = (routes, routerOutlet, state = {}) => {
+const createRouter = () => {
   //...
   window.addEventListener('hashchange', () => {
     // Search the routes table for the route corresponding to the path name.
