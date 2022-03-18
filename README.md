@@ -465,13 +465,11 @@ const createRouter = (routes, routerOutlet, state = {}) => {
 ## Using this starter for your own project
 
 1. Fork this repo and clone it on your computer.
-2. In `src/constants.js`, change the `USE_EXAMPLE` boolean from `true` to `false`:
+2. In `src/app.js`, change the `import` statement to load the `routes` table from `./pages/routes.js` instead of `./example/pages/routes.js`.
 
    ```js
-   export const USE_EXAMPLE = false;
+   import routes from './pages/routes.js';
    ```
-
-   This will instruct `apps.js` to load the page routes from the `src/pages` folder instead of `src/examples/pages`.
 
 3. Load the application in your browser. You should now see the message from the Home Page: **It works!**.
 
