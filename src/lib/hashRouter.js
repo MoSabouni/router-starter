@@ -4,7 +4,7 @@
  * There should be no reason to make any changes to this file.
  */
 
-import log from './logger.js';
+import { log } from './logger.js';
 
 /**
  * Navigates to a specified page.
@@ -52,6 +52,9 @@ function createRouter(routes, routerOutlet, state = {}) {
   // We listen for changes to the hash and attempt to load a corresponding
   // page from the `routes` table.
   window.addEventListener('hashchange', () => {
+    /** @type {object | null} */
+    let currentPage = null;
+
     const [pathname, ...params] = getRouteParts();
 
     // Find the page corresponding to the current hash value
@@ -67,12 +70,19 @@ function createRouter(routes, routerOutlet, state = {}) {
     // The page creation function is expected to return its root element
     // in the root property of the returned object.
     log.debug('router load', 'path:', pathname, 'params:', [...params], state);
-    const { root } = route.page(state, ...params);
+
+    //
+    if (currentPage?.willUnmount === typeof 'function') {
+      currentPage.willUnmount();
+    }
+
+    currentPage = route.page(state, ...params);
+    // const { root } = route.page(state, ...params);
 
     // Clear the content router outlet container and append the page
     // root element as its new child.
     routerOutlet.innerHTML = '';
-    routerOutlet.appendChild(root);
+    routerOutlet.appendChild(currentPage.root);
   }); // end of event handler
 
   const initialState = { ...state };
@@ -93,7 +103,10 @@ function createRouter(routes, routerOutlet, state = {}) {
     start() {
       // Start the router
       log.debug('router', 'started');
+      // const [path] = getRouteParts();
+      // if (!path || findRouteByPathname(path)) {
       window.dispatchEvent(new Event('hashchange'));
+      // }
     },
   };
 }

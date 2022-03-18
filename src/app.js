@@ -1,13 +1,13 @@
-import { LOG_LEVEL } from './constants.js';
 import data from './data.js';
 // import routes from './pages/routes.js'
 import routes from './example/pages/routes.js';
 import createRouter from './lib/hashRouter.js';
-import log from './lib/logger.js';
+import { log } from './lib/logger.js';
+import { appState } from './lib/appState.js';
 
 function loadApp() {
   // Set the desired log level
-  log.setLevel(LOG_LEVEL);
+  log.setLevel('silly');
   log.info('application', 'started');
 
   const appRoot = document.getElementById('app-root');
@@ -17,6 +17,8 @@ function loadApp() {
   const routerOutlet = document.createElement('div');
   routerOutlet.id = 'router-outlet';
   appRoot.appendChild(routerOutlet);
+
+  appState.update({ ...data });
 
   // Create and start the router
   const router = createRouter(routes, routerOutlet, { ...data });

@@ -1,5 +1,5 @@
 //@ts-check
-import log from './logger.js';
+import {log} from './logger.js';
 
 /**
  * This file is provided ready-made for use in your application by HackYourFuture.

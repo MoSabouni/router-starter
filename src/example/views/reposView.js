@@ -1,4 +1,4 @@
-import log from '../../lib/logger.js';
+import { log } from '../../lib/logger.js';
 import createLoadingIndicator from './loadingIndicator.js';
 import createRepoListItemView from './repoListItemView.js';
 import createToolbarView from './toolbarView.js';
@@ -30,19 +30,6 @@ function createReposView(props) {
   container.appendChild(loadingIndicator.root);
 
   const render = (state) => {
-    toolbarView.update(state);
-
-    if (state.loading) {
-      loadingIndicator.root.hidden = false;
-      return;
-    }
-
-    loadingIndicator.root.hidden = true;
-
-    if (state.error) {
-      throw new Error('Unexpected call to `update()`');
-    }
-
     // clear loading indicator
     container.innerHTML = '';
 
@@ -66,9 +53,24 @@ function createReposView(props) {
     });
   };
 
-  const update = (state) => {
+  const update = (state, prevState) => {
+    toolbarView.update(state);
+
+    if (state.loading) {
+      loadingIndicator.root.hidden = false;
+      return;
+    }
+
+    loadingIndicator.root.hidden = true;
+
+    if (state.error) {
+      throw new Error('Unexpected call to `update()`');
+    }
+
     log.debug('reposView', 'update:', state);
-    render(state);
+    if (state.repos !== prevState.repos) {
+      render(state);
+    }
   };
 
   return { root, update };

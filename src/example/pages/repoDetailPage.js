@@ -1,5 +1,5 @@
 import { navigateTo } from '../../lib/hashRouter.js';
-import log from '../../lib/logger.js';
+import { log } from '../../lib/logger.js';
 import fetchRepo from '../fetchers/repoFetcher.js';
 import createRepoDetailView from '../views/repoDetailView.js';
 

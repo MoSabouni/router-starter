@@ -1,5 +1,6 @@
+import { appState } from '../../lib/appState.js';
 import { navigateTo } from '../../lib/hashRouter.js';
-import log from '../../lib/logger.js';
+import {log} from '../../lib/logger.js';
 import fetchRepos from '../fetchers/reposFetcher.js';
 import createReposView from '../views/reposView.js';
 
@@ -20,28 +21,27 @@ function createReposPage(state) {
       getData();
     },
   };
+
   const reposView = createReposView(props);
+  const unsubscribe = appState.subscribe(reposView.update);
 
   const getData = async () => {
-    state.error = null;
-    state.loading = true;
-    reposView.update(state);
+    appState.update({ error: null, loading: true });
 
     try {
-      state.repos = await fetchRepos(state.organization);
-    } catch (err) {
-      log.error('createReposPage', err.message);
+      const repos = await fetchRepos(state.organization);
+      appState.update({ repos, loading: false });
+    } catch (error) {
+      log.error('createReposPage', error.message);
+      appState.update({ error, loading: false });
       navigateTo('error');
       return;
-    } finally {
-      state.loading = false;
     }
-    reposView.update(state);
   };
 
   getData();
 
-  return reposView;
+  return { root: reposView.root, willUnmount: unsubscribe };
 }
 
 export default createReposPage;

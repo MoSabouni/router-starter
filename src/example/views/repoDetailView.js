@@ -1,4 +1,4 @@
-import log from '../../lib/logger.js';
+import { log } from '../../lib/logger.js';
 import createContributorListView from './contributorListView.js';
 import createLoadingIndicator from './loadingIndicator.js';
 
