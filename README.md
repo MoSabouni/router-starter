@@ -2,6 +2,8 @@
 
 This repo is an example of Single Page Application that uses a hash-based router, all written in vanilla JavaScript (no libraries used). It can also serve as a starter project for building your own application based on the same principles.
 
+For the "why" of this starter repo, see: [Motivation](./MOTIVATION.md).
+
 ## Installing Dependencies
 
 There are no dependencies needed to deploy the website, everything is prepared to work with vanilla JavaScript. However, to install the recommended ESLint and Prettier dependencies for use during development, issue the command:
@@ -165,7 +167,6 @@ export default createSamplePage;
 A Page function can pass event handlers to the View function through the `props` object. The View function can then add the event handler to the target DOM elements by calling `.addEventListener()` on the elements.
 
 ```js
-// file: src/examples/pages/aboutPage.js
 import router from '../../lib/hashRouter.js';
 import createAboutView from '../views/aboutView.js';
 
@@ -200,7 +201,6 @@ A View function typically first creates an initial DOM element that represents t
 Here is an example of a View function.
 
 ```js
-// file: src/example/views/aboutView.js
 function createAboutView(props) {
   const root = document.createElement('div');
   root.className = 'dialog-container centered';
