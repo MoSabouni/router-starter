@@ -4,21 +4,28 @@ import fetchRepo from '../fetchers/repoFetcher.js';
 import createRepoDetailView from '../views/repoDetailView.js';
 
 function createRepoDetailPage(owner, repoName) {
-  const props = { onBack: () => router.navigateTo('repos') };
-  const repoView = createRepoDetailView(props);
+  const repoView = createRepoDetailView();
 
   const getData = async () => {
-    router.updateState({ error: null, loading: true });
+    router.updateState({
+      error: null,
+      loading: true,
+      repo: null,
+      contributors: null,
+    });
+
+    let repo, contributors;
 
     try {
-      const { repo, contributors } = await fetchRepo(owner, repoName);
-      router.updateState({ repo, contributors, loading: false });
+      ({ repo, contributors } = await fetchRepo(owner, repoName));
     } catch (error) {
       log.error('createRepoDetailPage', error.message);
       router.updateState({ error, loading: false });
       router.navigateTo('error');
       return;
     }
+
+    router.updateState({ repo, contributors, loading: false });
   };
 
   getData();

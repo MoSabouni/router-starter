@@ -8,16 +8,13 @@ function createReposView(props) {
   root.innerHTML = String.raw`
     <header class="header">
       <div class="header-content">
-        <button type="button" id="btn-home">
+        <a href="#home" class="toolbar-button">
           <i class="fa-solid fa-house"></i>
-        </button>
+        </a>
         <div>HYF Repositories</div>
       </div>
     </header>
   `;
-
-  const btnHome = root.querySelector('#btn-home');
-  btnHome.addEventListener('click', props.onHomeClick);
 
   const toolbarView = createToolbarView(props);
   root.appendChild(toolbarView.root);
@@ -62,7 +59,8 @@ function createReposView(props) {
 
     loadingIndicator.root.hidden = true;
 
-    if (state.error) {
+    // Do not render if there is an error or if there is no data yet.
+    if (state.error || !state.repos) {
       return;
     }
 

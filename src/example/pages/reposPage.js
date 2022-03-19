@@ -5,7 +5,6 @@ import createReposView from '../views/reposView.js';
 
 function createReposPage() {
   const props = {
-    onHomeClick: () => router.navigateTo('home'),
     onItemClick: (repo) =>
       router.navigateTo('repo', repo.owner.login, repo.name),
     onFilterInput: (e) => {
@@ -25,15 +24,18 @@ function createReposPage() {
   const getData = async () => {
     router.updateState({ error: null, loading: true, repos: null });
 
+    let repos;
+
     try {
-      const repos = await fetchRepos(router.getState().organization);
-      router.updateState({ repos, loading: false });
+      repos = await fetchRepos(router.getState().organization);
     } catch (error) {
       log.error('createReposPage', error.message);
       router.updateState({ error, loading: false });
       router.navigateTo('error');
       return;
     }
+
+    router.updateState({ repos, loading: false });
   };
 
   getData();
