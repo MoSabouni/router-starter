@@ -17,14 +17,12 @@ body {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  margin: 0 4px;
 }
 
 .repo-detail-container {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  margin: 0 4px;
 }
 
 .toolbar-view {
@@ -55,7 +53,6 @@ select {
   .repo-detail-container {
     flex-direction: row;
     align-items: flex-start;
-    margin: 0;
   }
 
   .toolbar-view-flex {
@@ -70,6 +67,11 @@ select {
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.header a {
+  color: white;
+  margin-right: 16px;
 }
 
 .repo-select {
@@ -206,10 +208,20 @@ p {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  margin: 16px;
 }
 
-.button-container button {
+.button-container button,
+a {
   margin: 0 4px;
+}
+
+.button-container a {
+  font-weight: bold;
+  text-decoration: none;
+  padding: 4px 8px;
+  border: solid 1px gray;
+  border-radius: 4px;
 }
 
 .loading-indicator {
