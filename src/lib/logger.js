@@ -20,10 +20,6 @@ function logger() {
     let logFn;
 
     switch (level) {
-      case 'silly':
-      case 'debug':
-        logFn = console.debug;
-        break;
       case 'warn':
         logFn = console.warn;
         break;
