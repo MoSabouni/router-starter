@@ -1,4 +1,4 @@
-function createObservable(state = {}) {
+function createObservableState(state = {}) {
   let _state = state;
 
   const _subscribers = new Set();
@@ -25,4 +25,4 @@ function createObservable(state = {}) {
   return { subscribe, unsubscribe, updateState, getState };
 }
 
-export default createObservable;
+export default createObservableState;

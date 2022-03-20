@@ -5,7 +5,7 @@
  */
 
 import log from './logger.js';
-import createObservable from './observable.js';
+import createObservableState from './observableState.js';
 
 /**
  * Navigates to a specified page.
@@ -30,7 +30,7 @@ const getRouteParts = () => {
 function createRouter() {
   let _routes = null;
   let _routerOutlet = null;
-  const _stateObs = createObservable();
+  const _obsState = createObservableState();
 
   /** @type {object | null} */
   let _currentPage = null;
@@ -70,14 +70,14 @@ function createRouter() {
 
     if (typeof _currentPage?.update === 'function') {
       // Unsubscribe the current page from the state observable.
-      _stateObs.unsubscribe(_currentPage.update);
+      _obsState.unsubscribe(_currentPage.update);
     }
 
     _currentPage = route.page(...params);
 
     if (typeof _currentPage?.update === 'function') {
       // Subscribe the new page to the state observable.
-      _stateObs.subscribe(_currentPage.update);
+      _obsState.subscribe(_currentPage.update);
     }
 
     // Clear the content router outlet container and append the page
@@ -100,7 +100,7 @@ function createRouter() {
   const start = (routes, routerOutlet, state = {}) => {
     _routes = routes;
     _routerOutlet = routerOutlet;
-    _stateObs.updateState(state);
+    _obsState.updateState(state);
 
     if (log.isMinLevel('debug')) {
       // Log the routes table to the console
@@ -121,11 +121,11 @@ function createRouter() {
    * @param {object} updates Update to be made.
    */
   const updateState = (updates) => {
-    const newState = _stateObs.updateState(updates);
+    const newState = _obsState.updateState(updates);
     log.debug('state', newState);
   };
 
-  const { getState } = _stateObs;
+  const { getState } = _obsState;
 
   return { start, navigateTo, updateState, getState };
 }
