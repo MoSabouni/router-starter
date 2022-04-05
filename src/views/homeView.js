@@ -1,9 +1,22 @@
 function createHomeView(props) {
   const root = document.createElement('div');
-  root.className = 'dialog-container';
-  root.innerHTML = String.raw`
-    <h1>${props.text}</h1>
-  `;
+  root.className = 'main-root';
+
+  const title = document.createElement('h1');
+  title.className = 'title';
+  title.textContent = props.title;
+  root.appendChild(title);
+
+  const intro = document.createElement('h2');
+  intro.className = 'intro';
+  intro.textContent = props.intro;
+  root.appendChild(intro);
+
+  const moviesBtn = document.createElement('a');
+  moviesBtn.className = 'movies-btn';
+  moviesBtn.textContent = props.btnText;
+  moviesBtn.href = props.btnHref;
+  root.appendChild(moviesBtn);
 
   return { root };
 }
