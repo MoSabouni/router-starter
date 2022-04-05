@@ -18,7 +18,7 @@ body {
 .loading-indicator {
   position: fixed;
   z-index: 1000;
-  top: 50%;
+  top: 70%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -109,7 +109,7 @@ From: https://code-boxx.com/rotate-spin-image-html-css/#sec-animate
 
 .movie-plot {
   background-color: black;
-  color: #e50914;
+  color: #dbdbdb;
   padding: 20px 10px;
 }
 
@@ -117,4 +117,36 @@ From: https://code-boxx.com/rotate-spin-image-html-css/#sec-animate
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.movies-list-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px 20px;
+  margin: 10px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.movie-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-content: space-between;
+  width: 350px;
+  background-color: #dbdbdb;
+  margin: 10px;
+  padding: 10px;
+}
+.movies-list-title {
+  color: black;
+  padding: 10px;
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+.movies-list-poster {
+  align-content: center;
+  width: 350px;
 }

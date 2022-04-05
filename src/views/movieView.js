@@ -25,7 +25,10 @@ function createMovieView(props) {
   searchButton.textContent = props.searchButtonText;
   root.appendChild(searchButton);
 
-  // creating all movie info HTML
+  searchButton.addEventListener('click', props.onClick);
+  inputSearch.addEventListener('input', props.onInput);
+
+  // creating movie HTML
   const moviePoster = document.createElement('img');
   moviePoster.className = 'movie-poster';
   moviePoster.alt = 'movie poster';
@@ -43,26 +46,8 @@ function createMovieView(props) {
   movieInfo.setAttribute('style', 'white-space: pre;');
   movieInfoContainer.appendChild(movieInfo);
 
-  searchButton.addEventListener('click', props.onClick);
-  inputSearch.addEventListener('input', props.onInput);
-
-  const loadingIndicator = createLoadingIndicator();
-  root.appendChild(loadingIndicator.root);
-  loadingIndicator.root.hidden = true;
-
-  const update = (state) => {
-    const { movies, error, loading } = state;
-    if (loading) {
-      loadingIndicator.root.hidden = false;
-      return;
-    }
-    loadingIndicator.root.hidden = true;
-
-    if (error) {
-      return;
-    }
+  const renderMovies = (movies) => {
     root.appendChild(movieContainer);
-
     movieTitle.textContent = movies.Title;
     moviePoster.src = movies.Poster;
     moviePlot.textContent = movies.Plot;
@@ -73,6 +58,55 @@ function createMovieView(props) {
     Genre: ${movies.Genre}\r\n
     Actors: ${movies.Actors}\r\n
     Writer: ${movies.Writer}`;
+  };
+
+  // creating movies list html
+  const moviesListContainer = document.createElement('div');
+  moviesListContainer.className = 'movies-list-container';
+
+  const renderMoviesList = (moviesList) => {
+    root.appendChild(moviesListContainer);
+
+    moviesList.Search.forEach((movie) => {
+      const movieCard = document.createElement('div');
+      movieCard.className = 'movie-card';
+      moviesListContainer.appendChild(movieCard);
+
+      const moviesListTitle = document.createElement('button');
+      moviesListTitle.className = 'movies-list-title';
+      moviesListTitle.textContent = movie.Title;
+      movieCard.appendChild(moviesListTitle);
+      moviesListTitle.addEventListener('click', () =>
+        props.onMovieClick(movie.imdbID)
+      );
+
+      const movieListPoster = document.createElement('img');
+      movieListPoster.className = 'movie-list-poster';
+      movieListPoster.src = movie.Poster;
+      movieListPoster.alt = movie.Title;
+      movieCard.appendChild(movieListPoster);
+    });
+  };
+
+  // Loading indicator
+  const loadingIndicator = createLoadingIndicator();
+  root.appendChild(loadingIndicator.root);
+  loadingIndicator.root.hidden = true;
+
+  const update = (state) => {
+    const { movies, moviesList, error, loading } = state;
+    if (loading) {
+      loadingIndicator.root.hidden = false;
+      return;
+    }
+    loadingIndicator.root.hidden = true;
+
+    if (error) {
+      return;
+    }
+
+    renderMovies(movies);
+    renderMoviesList(moviesList);
   };
 
   return { root, update };
@@ -89,12 +123,6 @@ function createLoadingIndicator() {
   const spinner = document.createElement('i');
   spinner.className = 'fa-solid fa-spinner fa-2xl';
   spin.appendChild(spinner);
-
-  // root.innerHTML = String.raw`
-  //   <div class="spin">
-  //     <i class="fa-solid fa-spinner fa-2xl"></i>
-  //   </div>
-  // `;
 
   return { root };
 }
