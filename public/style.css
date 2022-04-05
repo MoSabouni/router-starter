@@ -42,7 +42,7 @@ From: https://code-boxx.com/rotate-spin-image-html-css/#sec-animate
   animation-timing-function: linear;
   color: white;
 }
-
+/* styling for main movie element */
 .movie-container {
   display: flex;
   flex-direction: row-reverse;
@@ -118,7 +118,7 @@ From: https://code-boxx.com/rotate-spin-image-html-css/#sec-animate
   flex-direction: column;
   justify-content: space-between;
 }
-
+/* Styling for suggestions element */
 .movies-list-container {
   display: flex;
   flex-direction: row;
@@ -139,6 +139,7 @@ From: https://code-boxx.com/rotate-spin-image-html-css/#sec-animate
   margin: 10px;
   padding: 10px;
 }
+
 .movies-list-title {
   color: black;
   padding: 10px;
@@ -146,6 +147,7 @@ From: https://code-boxx.com/rotate-spin-image-html-css/#sec-animate
   font-size: 1.3rem;
   font-weight: bold;
 }
+
 .movies-list-poster {
   align-content: center;
   width: 350px;

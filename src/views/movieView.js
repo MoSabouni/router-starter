@@ -28,7 +28,7 @@ function createMovieView(props) {
   searchButton.addEventListener('click', props.onClick);
   inputSearch.addEventListener('input', props.onInput);
 
-  // creating movie HTML
+  // creating main movie
   const moviePoster = document.createElement('img');
   moviePoster.className = 'movie-poster';
   moviePoster.alt = 'movie poster';
@@ -60,7 +60,7 @@ function createMovieView(props) {
     Writer: ${movie.Writer}`;
   };
 
-  // creating movies list html
+  // creating suggestion movies list
   const moviesListContainer = document.createElement('div');
   moviesListContainer.className = 'movies-list-container';
 
@@ -106,6 +106,7 @@ function createMovieView(props) {
     }
 
     renderMovie(movie);
+    moviesListContainer.innerHTML = '';
     renderMoviesList(moviesList);
   };
 
