@@ -2,7 +2,7 @@ import fetchData from '../lib/fetchData.js';
 
 const fetchMoviesList = async (searchValue) => {
   const moviesList = await fetchData(
-    `http://www.omdbapi.com/?s=${searchValue}&apikey=a09ae8d1`,
+    `https://www.omdbapi.com/?s=${searchValue}&apikey=a09ae8d1`,
     { cache: true }
   );
   return moviesList;
