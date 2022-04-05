@@ -24,12 +24,12 @@ function createMoviePage() {
         moviesList: null,
       });
 
-      let movies;
+      let movie;
       let moviesList;
       try {
-        movies = await fetchMoviesById(imdbID);
+        movie = await fetchMoviesById(imdbID);
         moviesList = await fetchMoviesList(searchValue);
-        router.updateState({ movies, moviesList, loading: false });
+        router.updateState({ movie, moviesList, loading: false });
       } catch (error) {
         console.log(error);
         router.updateState({ loading: false, error });
@@ -46,12 +46,12 @@ function createMoviePage() {
       moviesList: null,
     });
 
-    let movies;
+    let movie;
     let moviesList;
     try {
-      movies = await fetchMovie(searchValue);
+      movie = await fetchMovie(searchValue);
       moviesList = await fetchMoviesList(searchValue);
-      router.updateState({ movies, moviesList, loading: false });
+      router.updateState({ movie, moviesList, loading: false });
     } catch (error) {
       console.log(error);
       router.updateState({ loading: false, error });

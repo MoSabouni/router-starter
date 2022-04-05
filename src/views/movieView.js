@@ -46,18 +46,18 @@ function createMovieView(props) {
   movieInfo.setAttribute('style', 'white-space: pre;');
   movieInfoContainer.appendChild(movieInfo);
 
-  const renderMovies = (movies) => {
+  const renderMovie = (movie) => {
     root.appendChild(movieContainer);
-    movieTitle.textContent = movies.Title;
-    moviePoster.src = movies.Poster;
-    moviePlot.textContent = movies.Plot;
+    movieTitle.textContent = movie.Title;
+    moviePoster.src = movie.Poster;
+    moviePlot.textContent = movie.Plot;
     movieInfo.textContent = `Information:\r\n
-    Rating: ${movies.imdbRating}\r\n
-    Year: ${movies.Year}\r\n
-    Seasons: ${movies.totalSeasons}\r\n
-    Genre: ${movies.Genre}\r\n
-    Actors: ${movies.Actors}\r\n
-    Writer: ${movies.Writer}`;
+    Rating: ${movie.imdbRating}\r\n
+    Year: ${movie.Year}\r\n
+    Seasons: ${movie.totalSeasons}\r\n
+    Genre: ${movie.Genre}\r\n
+    Actors: ${movie.Actors}\r\n
+    Writer: ${movie.Writer}`;
   };
 
   // creating movies list html
@@ -92,9 +92,9 @@ function createMovieView(props) {
   const loadingIndicator = createLoadingIndicator();
   root.appendChild(loadingIndicator.root);
   loadingIndicator.root.hidden = true;
-
+  // update function is fired whenever there is state update from router
   const update = (state) => {
-    const { movies, moviesList, error, loading } = state;
+    const { movie, moviesList, error, loading } = state;
     if (loading) {
       loadingIndicator.root.hidden = false;
       return;
@@ -105,7 +105,7 @@ function createMovieView(props) {
       return;
     }
 
-    renderMovies(movies);
+    renderMovie(movie);
     renderMoviesList(moviesList);
   };
 
